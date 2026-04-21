@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
@@ -8,6 +9,7 @@ import { Calendar, Clock, Video, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export function PatientPortal() {
+  const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { appointments, loading } = useAppSelector(state => state.appointments);
@@ -22,21 +24,21 @@ export function PatientPortal() {
   return (
     <div className="w-full space-y-8">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">Your Patient Portal</h2>
-        <p className="text-muted-foreground mt-2">Manage your appointments, health records, and profile.</p>
+        <h2 className="text-3xl font-bold tracking-tight">{t('portal.title')}</h2>
+        <p className="text-muted-foreground mt-2">{t('portal.subtitle')}</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
-          <h3 className="text-xl font-semibold mb-4">Upcoming Appointments</h3>
+          <h3 className="text-xl font-semibold mb-4">{t('portal.upcoming')}</h3>
           
-          {loading && <p className="animate-pulse">Loading appointments...</p>}
+          {loading && <p className="animate-pulse">{t('common.loading')}</p>}
           {!loading && upcoming.length === 0 && (
             <Card className="bg-slate-50 border-dashed">
                <CardContent className="py-12 text-center text-slate-500">
-                 You have no upcoming appointments.
+                 {t('portal.noUpcoming')}
                  <div className="mt-4">
-                   <Button onClick={() => navigate('/')}>Book an Appointment</Button>
+                   <Button onClick={() => navigate('/')}>{t('portal.bookNow')}</Button>
                  </div>
                </CardContent>
             </Card>
@@ -47,7 +49,7 @@ export function PatientPortal() {
               <div className="bg-blue-50/50 border-b border-blue-100 px-6 py-4 flex justify-between items-center">
                 <div className="flex items-center gap-3 text-blue-900">
                   <Calendar className="w-5 h-5" />
-                  <span className="font-semibold">{new Date(appt.date).toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric'})}</span>
+                  <span className="font-semibold">{new Date(appt.date).toLocaleDateString(i18n.language, { weekday: 'short', month: 'long', day: 'numeric'})}</span>
                   <span className="text-slate-400 mx-2">&bull;</span>
                   <Clock className="w-5 h-5 text-blue-500" />
                   <span className="font-semibold text-blue-600">{appt.time}</span>
@@ -61,20 +63,20 @@ export function PatientPortal() {
                        <User className="text-slate-400" />
                      </div>
                      <div>
-                       <h4 className="font-medium text-lg">Provider ID: {appt.providerId}</h4>
+                       <h4 className="font-medium text-lg">{t('admin.table.doctor')} ID: {appt.providerId}</h4>
                        <p className="text-sm text-slate-500">{appt.type.replace('_',' ')}</p>
                        <div className="flex items-center gap-2 mt-2 text-sm text-slate-600">
-                         <Video className="w-4 h-4" /> Telehealth available
+                         <Video className="w-4 h-4" /> {t('portal.telehealth')}
                        </div>
                      </div>
                   </div>
                   <div className="flex gap-3">
                      <Button variant="outline" onClick={() => {
-                        if(window.confirm('Are you sure you want to cancel?')) {
+                        if(window.confirm(t('portal.cancelConfirm'))) {
                           dispatch(cancelExistingAppointment({ id: appt.id, reason: 'Patient requested' }))
                         }
-                     }}>Cancel</Button>
-                     <Button variant="secondary">Reschedule</Button>
+                     }}>{t('portal.cancelButton')}</Button>
+                     <Button variant="secondary">{t('portal.reschedule')}</Button>
                   </div>
                 </div>
               </CardContent>
@@ -85,31 +87,31 @@ export function PatientPortal() {
         <div className="space-y-6">
            <Card>
              <CardHeader>
-               <CardTitle>Profile Info</CardTitle>
+               <CardTitle>{t('portal.profileInfo')}</CardTitle>
              </CardHeader>
              <CardContent className="space-y-4">
                 <div>
-                  <p className="text-sm font-medium text-slate-500">Name</p>
+                  <p className="text-sm font-medium text-slate-500">{t('portal.nameLabel')}</p>
                   <p className="font-medium">Jane Doe</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-slate-500">Email</p>
+                  <p className="text-sm font-medium text-slate-500">{t('portal.emailLabel')}</p>
                   <p className="font-medium">jane@example.com</p>
                 </div>
-                <Button variant="outline" className="w-full mt-2">Edit Profile</Button>
+                <Button variant="outline" className="w-full mt-2">{t('portal.editProfile')}</Button>
              </CardContent>
            </Card>
 
            {past.length > 0 && (
              <Card>
                <CardHeader>
-                 <CardTitle>Past Visits</CardTitle>
+                 <CardTitle>{t('portal.pastVisits')}</CardTitle>
                </CardHeader>
                <CardContent className="space-y-4">
                  {past.map(a => (
                    <div key={a.id} className="flex justify-between items-center pb-2 border-b last:border-0 last:pb-0">
                      <div>
-                       <p className="font-medium text-sm">{new Date(a.date).toLocaleDateString()}</p>
+                       <p className="font-medium text-sm">{new Date(a.date).toLocaleDateString(i18n.language)}</p>
                        <p className="text-xs text-slate-500">{a.type}</p>
                      </div>
                      <Badge variant={a.status === 'COMPLETED' ? 'outline' : 'destructive'} className="text-xs">{a.status}</Badge>

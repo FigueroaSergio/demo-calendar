@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '../../components/ui/dialog';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
@@ -14,6 +15,7 @@ interface ProviderFormDialogProps {
 }
 
 export function ProviderFormDialog({ open, onOpenChange, onSuccess }: ProviderFormDialogProps) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<Partial<CreateProviderDTO>>({
     name: '',
@@ -43,15 +45,15 @@ export function ProviderFormDialog({ open, onOpenChange, onSuccess }: ProviderFo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Provider</DialogTitle>
+          <DialogTitle>{t('admin.provider.addTitle')}</DialogTitle>
           <DialogDescription>
-            Enter the details for the new doctor to join the staff list.
+            {t('admin.provider.addSubtitle')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">Name</Label>
+              <Label htmlFor="name" className="text-right">{t('admin.provider.name')}</Label>
               <Input 
                 id="name" 
                 className="col-span-3" 
@@ -61,7 +63,7 @@ export function ProviderFormDialog({ open, onOpenChange, onSuccess }: ProviderFo
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="specialty" className="text-right">Specialty</Label>
+              <Label htmlFor="specialty" className="text-right">{t('admin.provider.specialty')}</Label>
               <Select 
                 value={formData.specialty} 
                 onValueChange={v => setFormData({...formData, specialty: v})}
@@ -70,15 +72,15 @@ export function ProviderFormDialog({ open, onOpenChange, onSuccess }: ProviderFo
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Cardiologist">Cardiologist</SelectItem>
-                  <SelectItem value="Pediatrician">Pediatrician</SelectItem>
-                  <SelectItem value="Neurologist">Neurologist</SelectItem>
-                  <SelectItem value="Dermatologist">Dermatologist</SelectItem>
+                  <SelectItem value="Cardiologist">{t('admin.table.specialty')} - Cardiologist</SelectItem>
+                  <SelectItem value="Pediatrician">{t('admin.table.specialty')} - Pediatrician</SelectItem>
+                  <SelectItem value="Neurologist">{t('admin.table.specialty')} - Neurologist</SelectItem>
+                  <SelectItem value="Dermatologist">{t('admin.table.specialty')} - Dermatologist</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="experience" className="text-right">Exp (Years)</Label>
+              <Label htmlFor="experience" className="text-right">{t('admin.provider.experience')}</Label>
               <Input 
                 id="experience" 
                 type="number" 
@@ -88,7 +90,7 @@ export function ProviderFormDialog({ open, onOpenChange, onSuccess }: ProviderFo
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="gender" className="text-right">Gender</Label>
+              <Label htmlFor="gender" className="text-right">{t('admin.provider.gender')}</Label>
               <Select 
                 value={formData.gender} 
                 onValueChange={v => setFormData({...formData, gender: v})}
@@ -97,16 +99,16 @@ export function ProviderFormDialog({ open, onOpenChange, onSuccess }: ProviderFo
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Male">Male</SelectItem>
-                  <SelectItem value="Female">Female</SelectItem>
-                  <SelectItem value="Non-binary">Non-binary</SelectItem>
+                  <SelectItem value="Male">{t('admin.provider.male')}</SelectItem>
+                  <SelectItem value="Female">{t('admin.provider.female')}</SelectItem>
+                  <SelectItem value="Non-binary">{t('admin.provider.other')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <DialogFooter>
             <Button type="submit" disabled={loading}>
-              {loading ? "Adding..." : "Add Provider"}
+              {loading ? t('common.loading') : t('admin.provider.addButton')}
             </Button>
           </DialogFooter>
         </form>

@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 
 export function DensityHeatmap() {
+  const { t } = useTranslation();
   const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
   const times = ['08:00 AM', '10:00 AM', '12:00 PM', '02:00 PM', '04:00 PM', '06:00 PM', '08:00 PM'];
 
@@ -14,18 +16,18 @@ export function DensityHeatmap() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle>Appointment Density</CardTitle>
-          <CardDescription>Weekly volume distribution across operating hours</CardDescription>
+          <CardTitle>{t('admin.heatmap.title')}</CardTitle>
+          <CardDescription>{t('admin.heatmap.subtitle')}</CardDescription>
         </div>
         <div className="flex gap-2 text-[10px] items-center">
-          <span className="text-muted-foreground">LOW</span>
+          <span className="text-muted-foreground">{t('admin.heatmap.low')}</span>
           <div className="flex gap-0.5">
             <div className="w-3 h-3 bg-primary/10 rounded-[2px]" />
             <div className="w-3 h-3 bg-primary/30 rounded-[2px]" />
             <div className="w-3 h-3 bg-primary/60 rounded-[2px]" />
             <div className="w-3 h-3 bg-primary rounded-[2px]" />
           </div>
-          <span className="text-muted-foreground">PEAK</span>
+          <span className="text-muted-foreground">{t('admin.heatmap.peak')}</span>
         </div>
       </CardHeader>
       <CardContent>
@@ -45,7 +47,7 @@ export function DensityHeatmap() {
                       <div 
                         key={tIdx} 
                         className={`h-6 rounded-[4px] ${bgColor} opacity-90 hover:opacity-100 transition-opacity cursor-help`}
-                        title={`${Math.round(val * 100)}% Occupancy`}
+                        title={t('admin.heatmap.occupancy', { value: Math.round(val * 100) })}
                       />
                     );
                   })}

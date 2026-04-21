@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Card,
   CardContent,
@@ -44,6 +45,7 @@ import { ProviderFormDialog } from "./ProviderFormDialog";
 import { AvailabilityConfigDialog } from "./AvailabilityConfigDialog";
 
 export function AdminDashboard() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -89,19 +91,19 @@ export function AdminDashboard() {
       <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-foreground">
-            Analytics Overview
+            {t("admin.dashboard.title")}
           </h2>
           <p className="text-muted-foreground mt-1">
-            Institutional performance data for St. Glacier Medical.
+            {t("admin.dashboard.subtitle")}
           </p>
         </div>
         <div className="flex items-center gap-3">
           <Select value={selectedProvider} onValueChange={setSelectedProvider}>
             <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="All Providers" />
+              <SelectValue placeholder={t("admin.dashboard.allProviders")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="ALL">All Providers</SelectItem>
+              <SelectItem value="ALL">{t("admin.dashboard.allProviders")}</SelectItem>
               {providers.map((p) => (
                 <SelectItem key={p.id} value={p.id}>
                   {p.name}
@@ -110,7 +112,7 @@ export function AdminDashboard() {
             </SelectContent>
           </Select>
           <Button onClick={() => setIsAddOpen(true)} className="gap-2">
-            <Plus className="w-4 h-4" /> Add Provider
+            <Plus className="w-4 h-4" /> {t("admin.dashboard.addProvider")}
           </Button>
         </div>
       </div>
@@ -120,13 +122,13 @@ export function AdminDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between space-y-0 pb-2">
               <p className="text-sm font-medium uppercase text-muted-foreground">
-                Total Appointments
+                {t("admin.dashboard.totalAppts")}
               </p>
               <Users className="h-4 w-4 text-primary" />
             </div>
             <div className="text-3xl font-bold">{total}</div>
             <p className="text-xs text-muted-foreground font-medium mt-1">
-              +12.5% from last month
+              {t("admin.dashboard.growth", { value: 12.5 })}
             </p>
           </CardContent>
         </Card>
@@ -134,7 +136,7 @@ export function AdminDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between space-y-0 pb-2">
               <p className="text-sm font-medium uppercase text-muted-foreground">
-                Completion Rate
+                {t("admin.dashboard.completionRate")}
               </p>
               <CheckCircle2 className="h-4 w-4 text-primary" />
             </div>
@@ -142,7 +144,7 @@ export function AdminDashboard() {
               {total > 0 ? Math.round((completed / total) * 100) : 0}%
             </div>
             <p className="text-xs text-emerald-600 font-medium mt-1">
-              +3.2% from last month
+              {t("admin.dashboard.growth", { value: 3.2 })}
             </p>
           </CardContent>
         </Card>
@@ -150,7 +152,7 @@ export function AdminDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between space-y-0 pb-2">
               <p className="text-sm font-medium uppercase text-muted-foreground">
-                No-Show Rate
+                {t("admin.dashboard.noShowRate")}
               </p>
               <XCircle className="h-4 w-4 text-destructive" />
             </div>
@@ -166,13 +168,13 @@ export function AdminDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between space-y-0 pb-2">
               <p className="text-sm font-medium uppercase text-muted-foreground">
-                Upcoming Today
+                {t("admin.dashboard.upcomingToday")}
               </p>
               <CalendarCheck className="h-4 w-4 text-primary" />
             </div>
             <div className="text-3xl font-bold">{currPending}</div>
             <p className="text-xs text-muted-foreground font-medium mt-1">
-              Schedules are near max density
+              {t("admin.dashboard.densityWarning")}
             </p>
           </CardContent>
         </Card>
@@ -184,7 +186,7 @@ export function AdminDashboard() {
           <Card>
             <CardHeader>
               <CardTitle className="flex justify-between items-center">
-                Real-time Schedule
+                {t("admin.dashboard.realTimeSchedule")}
                 <Clock className="w-4 h-4 text-slate-400" />
               </CardTitle>
             </CardHeader>
@@ -203,7 +205,7 @@ export function AdminDashboard() {
                         </div>
                         <div>
                           <p className="font-medium text-sm">
-                            Patient {a.patientId}
+                            {t("portal.nameLabel")} {a.patientId}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {p?.name || "Unknown"}
@@ -223,7 +225,7 @@ export function AdminDashboard() {
                 })}
                 {appointments.length === 0 && (
                   <div className="text-sm text-slate-500 py-4 text-center">
-                    No appointments scheduled active.
+                    {t("admin.dashboard.noAppts")}
                   </div>
                 )}
               </div>
@@ -234,8 +236,8 @@ export function AdminDashboard() {
           <CapacityList providers={providers} appointments={appointments} />
           <Card>
             <CardHeader>
-              <CardTitle>Quick Management</CardTitle>
-              <CardDescription>Configure staff schedules</CardDescription>
+              <CardTitle>{t("admin.dashboard.quickManagement")}</CardTitle>
+              <CardDescription>{t("admin.dashboard.configureStaff")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {providers.map((p) => (
@@ -260,7 +262,7 @@ export function AdminDashboard() {
                   onClick={() => navigate("/admin/doctors")}
                 >
                   <Stethoscope className="w-4 h-4" />
-                  Manage All Doctors
+                  {t("admin.dashboard.manageAllDoctors")}
                 </Button>
               </div>
             </CardContent>

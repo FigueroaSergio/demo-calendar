@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Navbar } from "./Navbar";
 
 export function MainLayout() {
+  const { t } = useTranslation();
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950">
       <Navbar />
 
       <main className="flex-1 w-full bg-inherit">
@@ -14,8 +16,7 @@ export function MainLayout() {
 
       <footer className="w-full border-t bg-white dark:bg-slate-950 py-8 text-center text-sm text-slate-500">
         <div className="max-w-7xl mx-auto px-4">
-          &copy; {new Date().getFullYear()} St. Glacier Medical. All rights
-          reserved.
+          {t("common.footer", { year: new Date().getFullYear() })}
         </div>
       </footer>
     </div>

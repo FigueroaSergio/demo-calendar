@@ -1,26 +1,38 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Calendar, Menu, X, ChevronRight } from "lucide-react";
+import { Calendar, Menu, X, ChevronRight, Languages } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { NAVIGATION_ITEMS } from "../../config/navigation";
 import { cn } from "../../lib/utils";
 
 export function Navbar() {
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
   const isActive = (path: string) => {
     if (path === "/") return location.pathname === "/";
-    // Fix: Exact match for admin to avoid double highlight with /admin/doctors
     if (path === "/admin") return location.pathname === "/admin";
     return location.pathname.startsWith(path);
+  };
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
   };
 
   return (
@@ -35,7 +47,7 @@ export function Navbar() {
             <Calendar className="size-4 md:size-5 text-primary-foreground" />
           </div>
           <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block">
-            St. Glacier Medical
+            {t("common.appName")}
           </h1>
           <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white sm:hidden">
             SGM
@@ -65,14 +77,32 @@ export function Navbar() {
                     active ? "text-primary" : "text-muted-foreground/60",
                   )}
                 />
-                {item.label}
+                {t(item.i18nKey)}
               </Link>
             );
           })}
         </nav>
 
-        {/* Desktop Portal Action (Optional, for now just show mobile toggle) */}
-        <div className="flex items-center gap-3">
+        {/* Actions */}
+        <div className="flex items-center gap-2 md:gap-3">
+          {/* Language Switcher */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <Languages className="h-4 w-4" />
+                <span className="sr-only">Toggle language</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => changeLanguage("en")}>
+                English {i18n.language === "en" && "✓"}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage("es")}>
+                Español {i18n.language === "es" && "✓"}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* Mobile Menu Toggle */}
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
@@ -100,8 +130,13 @@ export function Navbar() {
                       <Calendar className="size-4 md:size-5 text-primary-foreground" />
                     </div>
 
-                    <span className="font-bold text-lg">Menu</span>
+                    <span className="font-bold text-lg">
+                      {t("common.menu")}
+                    </span>
                   </DialogTitle>
+                  <DialogDescription className="sr-only">
+                    {t("common.menuDescription")}
+                  </DialogDescription>
                 </DialogHeader>
 
                 <div className="flex-1 overflow-y-auto px-4 py-6">
@@ -140,7 +175,9 @@ export function Navbar() {
                                 )}
                               />
                             </div>
-                            <span className="font-semibold">{item.label}</span>
+                            <span className="font-semibold">
+                              {t(item.i18nKey)}
+                            </span>
                           </div>
                           <ChevronRight
                             className={cn(
@@ -156,7 +193,7 @@ export function Navbar() {
 
                 <div className="p-6 border-t bg-slate-50 dark:bg-slate-900/50">
                   <p className="text-xs text-center text-slate-400 italic">
-                    St. Glacier Medical Group
+                    {t("common.appName")} Group
                   </p>
                 </div>
               </div>

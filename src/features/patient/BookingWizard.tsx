@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Card,
   CardContent,
@@ -27,6 +28,7 @@ import { format, addDays, isSameDay, parseISO } from "date-fns";
 import { cn } from "@/lib/utils";
 
 export function BookingWizard() {
+  const { t } = useTranslation();
   const { providerId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -94,7 +96,7 @@ export function BookingWizard() {
         onClick={() => navigate(-1)}
         className="mb-6 -ml-4"
       >
-        <ArrowLeft className="w-4 h-4 mr-2" /> Back to Search
+        <ArrowLeft className="w-4 h-4 mr-2" /> {t("patient.booking.backToSearch")}
       </Button>
 
       <div className="mb-8 flex items-center justify-between">
@@ -110,24 +112,24 @@ export function BookingWizard() {
         {step === 1 && (
           <>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Select Date</CardTitle>
+              <CardTitle>{t("patient.booking.selectDate")}</CardTitle>
               <div className="flex bg-muted p-1 rounded-md">
-                <Button
-                  variant={viewMode === "LIST" ? "white" : "ghost"}
-                  size="sm"
-                  className="h-8 px-2"
-                  onClick={() => setViewMode("LIST")}
-                >
-                  <ListIcon className="w-4 h-4 mr-1" /> List
-                </Button>
-                <Button
-                  variant={viewMode === "CALENDAR" ? "white" : "ghost"}
-                  size="sm"
-                  className="h-8 px-2"
-                  onClick={() => setViewMode("CALENDAR")}
-                >
-                  <CalendarIcon className="w-4 h-4 mr-1" /> Calendar
-                </Button>
+                  <Button
+                    variant={viewMode === "LIST" ? "white" : "ghost"}
+                    size="sm"
+                    className="h-8 px-2"
+                    onClick={() => setViewMode("LIST")}
+                  >
+                    <ListIcon className="w-4 h-4 mr-1" /> {t("patient.booking.listView")}
+                  </Button>
+                  <Button
+                    variant={viewMode === "CALENDAR" ? "white" : "ghost"}
+                    size="sm"
+                    className="h-8 px-2"
+                    onClick={() => setViewMode("CALENDAR")}
+                  >
+                    <CalendarIcon className="w-4 h-4 mr-1" /> {t("patient.booking.calendarView")}
+                  </Button>
               </div>
             </CardHeader>
             <CardContent>
@@ -160,13 +162,13 @@ export function BookingWizard() {
                         </span>
                       </div>
                       <span className="text-sm text-muted-foreground">
-                        {av.slots.length} slots available
+                        {t("patient.booking.slotsAvailable", { count: av.slots.length })}
                       </span>
                     </div>
                   ))}
                   {availabilities.length === 0 && (
                     <div className="text-center text-muted-foreground py-8">
-                      No availability found for the requested period.
+                      {t("patient.booking.noSlots")}
                     </div>
                   )}
                 </div>
@@ -196,7 +198,7 @@ export function BookingWizard() {
             </CardContent>
             <CardFooter className="justify-end">
               <Button disabled={!selectedDate} onClick={() => setStep(2)}>
-                Continue
+                {t("common.save")}
               </Button>
             </CardFooter>
           </>
@@ -205,7 +207,7 @@ export function BookingWizard() {
         {step === 2 && (
           <>
             <CardHeader>
-              <CardTitle>Select Time</CardTitle>
+              <CardTitle>{t("patient.booking.selectTime")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-3 md:grid-cols-4 gap-4">
@@ -225,10 +227,10 @@ export function BookingWizard() {
             </CardContent>
             <CardFooter className="justify-between">
               <Button variant="ghost" onClick={() => setStep(1)}>
-                Back
+                {t("common.back")}
               </Button>
               <Button disabled={!selectedTime} onClick={() => setStep(3)}>
-                Continue
+                {t("common.save")}
               </Button>
             </CardFooter>
           </>
@@ -237,36 +239,36 @@ export function BookingWizard() {
         {step === 3 && (
           <>
             <CardHeader>
-              <CardTitle>Confirm Booking</CardTitle>
+              <CardTitle>{t("patient.booking.confirmBooking")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="bg-muted/30 p-6 rounded-lg border border-primary/10">
                 <h3 className="font-semibold text-lg mb-4">
-                  Appointment Details
+                  {t("patient.booking.details")}
                 </h3>
                 <div className="space-y-3 text-muted-foreground">
                   <div className="flex justify-between">
-                    <span>Provider</span>
+                    <span>{t("admin.table.doctor")}</span>
                     <span className="font-medium text-foreground">
                       {provider.name}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Date</span>
+                    <span>{t("patient.booking.selectDate")}</span>
                     <span className="font-medium text-foreground">
                       {selectedDate}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Time</span>
+                    <span>{t("patient.booking.selectTime")}</span>
                     <span className="font-medium text-foreground">
                       {selectedTime}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Service</span>
+                    <span>{t("patient.booking.service")}</span>
                     <span className="font-medium text-foreground">
-                      Initial Consultation
+                      {t("patient.booking.initialConsult")}
                     </span>
                   </div>
                 </div>
@@ -274,10 +276,10 @@ export function BookingWizard() {
             </CardContent>
             <CardFooter className="justify-between">
               <Button variant="ghost" onClick={() => setStep(2)}>
-                Back
+                {t("common.back")}
               </Button>
               <Button onClick={handleBook} className="w-full sm:w-auto">
-                Confirm Appointment
+                {t("patient.booking.confirmButton")}
               </Button>
             </CardFooter>
           </>
@@ -287,7 +289,7 @@ export function BookingWizard() {
           <div className="py-24 flex flex-col items-center justify-center">
             <div className="w-12 h-12 border-4 border-muted border-t-primary rounded-full animate-spin mb-4"></div>
             <p className="text-lg font-medium text-muted-foreground animate-pulse">
-              Securing your appointment...
+              {t("patient.booking.securing")}
             </p>
           </div>
         )}
@@ -299,20 +301,23 @@ export function BookingWizard() {
             </div>
             <div>
               <h2 className="text-3xl font-bold tracking-tight mb-2">
-                Booking Confirmed!
+                {t("patient.booking.confirmed")}
               </h2>
               <p className="text-slate-500 max-w-md">
-                Your appointment with {provider.name} on {selectedDate} at{" "}
-                {selectedTime} has been successfully scheduled.
+                {t("patient.booking.successMessage", { 
+                  name: provider.name, 
+                  date: selectedDate, 
+                  time: selectedTime 
+                })}
               </p>
             </div>
 
             <div className="flex gap-4 pt-4">
               <Button variant="outline" onClick={() => navigate("/")}>
-                Book Another
+                {t("patient.booking.bookAnother")}
               </Button>
               <Button onClick={() => navigate("/patient")}>
-                View My Portal
+                {t("patient.booking.viewPortal")}
               </Button>
             </div>
           </div>

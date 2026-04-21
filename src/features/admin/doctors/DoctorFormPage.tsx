@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Card,
   CardContent,
@@ -60,10 +61,6 @@ const LANGUAGES_LIST = [
 const SLOT_DURATIONS = [10, 15, 20, 30, 45, 60];
 const BUFFER_TIMES = [0, 5, 10, 15, 20];
 const DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-const DAY_LABELS: Record<string, string> = {
-  MON: "Monday", TUE: "Tuesday", WED: "Wednesday",
-  THU: "Thursday", FRI: "Friday", SAT: "Saturday", SUN: "Sunday",
-};
 
 type FormStep = "profile" | "slots" | "advanced";
 
@@ -168,6 +165,7 @@ function StepIndicator({
 }
 
 export function DoctorFormPage() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const isEdit = !!id;
@@ -297,8 +295,8 @@ export function DoctorFormPage() {
   // ── Submit ───────────────────────────────────────────────────────
   const handleSave = async () => {
     setError(null);
-    if (!profile.name.trim()) { setError("Doctor name is required."); return; }
-    if (!profile.specialty) { setError("Specialty is required."); return; }
+    if (!profile.name.trim()) { setError(t("doctorForm.messages.errorName")); return; }
+    if (!profile.specialty) { setError(t("doctorForm.messages.errorSpecialty")); return; }
 
     setSaving(true);
     try {
@@ -331,7 +329,7 @@ export function DoctorFormPage() {
   if (loadingDoctor) {
     return (
       <div className="flex items-center justify-center min-h-[40vh] text-slate-400">
-        Loading doctor…
+        {t("doctorForm.messages.loading")}
       </div>
     );
   }
@@ -349,10 +347,12 @@ export function DoctorFormPage() {
         </Button>
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-            {isEdit ? "Edit Doctor" : "Add New Doctor"}
+            {isEdit ? t("doctorForm.titleEdit") : t("doctorForm.titleAdd")}
           </h2>
           <p className="text-muted-foreground text-sm mt-0.5">
-            {isEdit ? `Editing ${profile.name}` : "Fill in the doctor's details and slot configuration."}
+            {isEdit 
+              ? t("doctorForm.subtitleEdit", { name: profile.name }) 
+              : t("doctorForm.subtitleAdd")}
           </p>
         </div>
       </div>
@@ -362,19 +362,19 @@ export function DoctorFormPage() {
         <StepIndicator
           step="profile"
           current={step}
-          label="Profile"
+          label={t("doctorForm.stepProfile")}
           icon={User}
         />
         <StepIndicator
           step="slots"
           current={step}
-          label="Time Slots"
+          label={t("doctorForm.stepSlots")}
           icon={Clock}
         />
         <StepIndicator
           step="advanced"
           current={step}
-          label="Advanced"
+          label={t("doctorForm.stepAdvanced")}
           icon={Settings2}
         />
       </div>
@@ -384,41 +384,41 @@ export function DoctorFormPage() {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Basic Information</CardTitle>
-              <CardDescription>Doctor identity and credentials</CardDescription>
+              <CardTitle className="text-base">{t("doctorForm.sections.basic")}</CardTitle>
+              <CardDescription>{t("doctorForm.sections.basicSubtitle")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Full Name *</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.fullName")} *</label>
                   <Input
-                    placeholder="Dr. John Smith"
+                    placeholder={t("doctorForm.placeholders.fullName")}
                     value={profile.name}
                     onChange={(e) => setField("name", e.target.value)}
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Specialty *</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.specialty")} *</label>
                   <Select value={profile.specialty} onValueChange={(v) => setField("specialty", v)}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select specialty" />
+                      <SelectValue placeholder={t("doctorForm.placeholders.specialty")} />
                     </SelectTrigger>
                     <SelectContent>
                       {SPECIALTIES.map((s) => (
-                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                        <SelectItem key={s} value={s}>{t(`common.specialties.${s}`)}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Location / Clinic</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.location")}</label>
                   <Input
                     value={profile.location}
                     onChange={(e) => setField("location", e.target.value)}
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Years of Experience</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.experience")}</label>
                   <Input
                     type="number"
                     min={0}
@@ -428,16 +428,18 @@ export function DoctorFormPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Gender</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.gender")}</label>
                   <Select value={profile.gender} onValueChange={(v) => setField("gender", v)}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {GENDERS.map((g) => <SelectItem key={g} value={g}>{g}</SelectItem>)}
+                      {GENDERS.map((g) => (
+                        <SelectItem key={g} value={g}>{t(`common.genders.${g}`)}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Avatar URL</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.avatar")}</label>
                   <div className="flex gap-2 items-center">
                     <img
                       src={profile.avatarUrl}
@@ -455,7 +457,7 @@ export function DoctorFormPage() {
 
               {/* Languages */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Languages</label>
+                <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.languages")}</label>
                 <div className="flex flex-wrap gap-2 mb-2">
                   {profile.languages.map((l) => (
                     <Badge
@@ -472,7 +474,7 @@ export function DoctorFormPage() {
                 <div className="flex gap-2">
                   <Select value={langInput} onValueChange={(v) => { addLanguage(v); setLangInput(""); }}>
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Add language…" />
+                      <SelectValue placeholder={t("doctorForm.placeholders.addLanguage")} />
                     </SelectTrigger>
                     <SelectContent>
                       {LANGUAGES_LIST.filter((l) => !profile.languages.includes(l)).map((l) => (
@@ -487,8 +489,8 @@ export function DoctorFormPage() {
               {isEdit && (
                 <div className="flex items-center justify-between border rounded-lg px-4 py-3 bg-slate-50">
                   <div>
-                    <p className="font-medium text-sm text-slate-800">Active Status</p>
-                    <p className="text-xs text-slate-500">Inactive doctors won't appear in patient search</p>
+                    <p className="font-medium text-sm text-slate-800">{t("doctorForm.labels.activeStatus")}</p>
+                    <p className="text-xs text-slate-500">{t("doctorForm.labels.activeStatusSubtitle")}</p>
                   </div>
                   <Toggle checked={profile.isActive} onChange={(v) => setField("isActive", v)} />
                 </div>
@@ -498,7 +500,7 @@ export function DoctorFormPage() {
 
           <div className="flex justify-end">
             <Button onClick={() => setStep("slots")} className="gap-2">
-              Next: Time Slots →
+              {t("doctorForm.buttons.nextSlots")}
             </Button>
           </div>
         </div>
@@ -509,14 +511,14 @@ export function DoctorFormPage() {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Slot Settings</CardTitle>
-              <CardDescription>Configure how appointments are generated</CardDescription>
+              <CardTitle className="text-base">{t("doctorForm.sections.slots")}</CardTitle>
+              <CardDescription>{t("doctorForm.sections.slotsSubtitle")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {/* Duration */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Slot Duration</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.slotDuration")}</label>
                   <Select
                     value={String(slotConfig.slotDurationMinutes)}
                     onValueChange={(v) => setSlotField("slotDurationMinutes", Number(v))}
@@ -526,7 +528,7 @@ export function DoctorFormPage() {
                     </SelectTrigger>
                     <SelectContent>
                       {SLOT_DURATIONS.map((d) => (
-                        <SelectItem key={d} value={String(d)}>{d} minutes</SelectItem>
+                        <SelectItem key={d} value={String(d)}>{t("doctorForm.labels.minutes", { count: d })}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -534,7 +536,7 @@ export function DoctorFormPage() {
 
                 {/* Buffer */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Buffer Between Slots</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.buffer")}</label>
                   <Select
                     value={String(slotConfig.bufferMinutes)}
                     onValueChange={(v) => setSlotField("bufferMinutes", Number(v))}
@@ -545,7 +547,7 @@ export function DoctorFormPage() {
                     <SelectContent>
                       {BUFFER_TIMES.map((b) => (
                         <SelectItem key={b} value={String(b)}>
-                          {b === 0 ? "No buffer" : `${b} minutes`}
+                          {b === 0 ? t("doctorForm.labels.noBuffer") : t("doctorForm.labels.minutes", { count: b })}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -554,7 +556,7 @@ export function DoctorFormPage() {
 
                 {/* Max patients */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Max Patients / Slot</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.maxPatients")}</label>
                   <Input
                     type="number"
                     min={1}
@@ -566,7 +568,7 @@ export function DoctorFormPage() {
 
                 {/* Advanced booking */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Advance Booking (days)</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.advanceBooking")}</label>
                   <Input
                     type="number"
                     min={1}
@@ -578,7 +580,7 @@ export function DoctorFormPage() {
 
                 {/* Min notice */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Minimum Notice (hours)</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.minNotice")}</label>
                   <Input
                     type="number"
                     min={0}
@@ -588,16 +590,16 @@ export function DoctorFormPage() {
                   />
                 </div>
 
-                {/* Auto confirm */}
+                {/* Auto confirm */ }
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700">Auto-Confirm Bookings</label>
+                  <label className="text-sm font-medium text-slate-700">{t("doctorForm.labels.autoConfirm")}</label>
                   <div className="flex items-center gap-3 h-10 px-3 border rounded-md bg-white">
                     <Toggle
                       checked={slotConfig.autoConfirm}
                       onChange={(v) => setSlotField("autoConfirm", v)}
                     />
                     <span className="text-sm text-slate-600">
-                      {slotConfig.autoConfirm ? "Enabled" : "Disabled"}
+                      {slotConfig.autoConfirm ? t("doctorForm.labels.enabled") : t("doctorForm.labels.disabled")}
                     </span>
                   </div>
                 </div>
@@ -608,23 +610,22 @@ export function DoctorFormPage() {
           {/* Slot preview */}
           <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-100">
             <CardContent className="p-5">
-              <p className="text-sm font-semibold text-blue-800 mb-1">Slot Preview</p>
+              <p className="text-sm font-semibold text-blue-800 mb-1">{t("doctorForm.preview.title")}</p>
               <p className="text-xs text-blue-600">
-                With a <strong>{slotConfig.slotDurationMinutes}min</strong> slot and{" "}
-                <strong>{slotConfig.bufferMinutes}min</strong> buffer, each appointment block
-                takes <strong>{slotConfig.slotDurationMinutes + slotConfig.bufferMinutes} minutes</strong>.
-                An 8-hour workday generates approximately{" "}
-                <strong>
-                  {Math.floor((8 * 60) / (slotConfig.slotDurationMinutes + slotConfig.bufferMinutes))} slots
-                </strong>.
+                {t("doctorForm.preview.text", {
+                  duration: slotConfig.slotDurationMinutes,
+                  buffer: slotConfig.bufferMinutes,
+                  total: slotConfig.slotDurationMinutes + slotConfig.bufferMinutes,
+                  slots: Math.floor((8 * 60) / (slotConfig.slotDurationMinutes + slotConfig.bufferMinutes))
+                })}
               </p>
             </CardContent>
           </Card>
 
           <div className="flex justify-between">
-            <Button variant="outline" onClick={() => setStep("profile")}>← Back</Button>
+            <Button variant="outline" onClick={() => setStep("profile")}>{t("doctorForm.buttons.back")}</Button>
             <Button onClick={() => setStep("advanced")} className="gap-2">
-              Next: Schedule →
+              {t("doctorForm.buttons.nextSchedule")}
             </Button>
           </div>
         </div>
@@ -635,9 +636,9 @@ export function DoctorFormPage() {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Weekly Schedule</CardTitle>
+              <CardTitle className="text-base">{t("doctorForm.sections.schedule")}</CardTitle>
               <CardDescription>
-                Configure working hours and break periods for each day
+                {t("doctorForm.sections.scheduleSubtitle")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -665,7 +666,7 @@ export function DoctorFormPage() {
                           ds.enabled ? "text-slate-800" : "text-slate-400"
                         }`}
                       >
-                        {DAY_LABELS[day]}
+                        {t(`common.days.${day}`)}
                       </span>
 
                       {ds.enabled ? (
@@ -701,7 +702,7 @@ export function DoctorFormPage() {
                           </div>
 
                           <Badge variant="outline" className="text-xs ml-auto">
-                            {ds.breaks.length} break{ds.breaks.length !== 1 ? "s" : ""}
+                            {t(ds.breaks.length === 1 ? "doctorForm.messages.breaksCount" : "doctorForm.messages.breaksCount_plural", { count: ds.breaks.length })}
                           </Badge>
 
                           <button
@@ -717,7 +718,7 @@ export function DoctorFormPage() {
                           </button>
                         </>
                       ) : (
-                        <span className="text-xs text-slate-400 italic ml-auto">Day off</span>
+                        <span className="text-xs text-slate-400 italic ml-auto">{t("doctorForm.labels.dayOff")}</span>
                       )}
                     </div>
 
@@ -725,10 +726,10 @@ export function DoctorFormPage() {
                     {ds.enabled && expanded && (
                       <div className="border-t px-4 py-3 space-y-2 bg-slate-50/50 rounded-b-xl">
                         <p className="text-xs font-semibold uppercase text-slate-400 tracking-wide">
-                          Break Periods
+                          {t("doctorForm.labels.breakPeriods")}
                         </p>
                         {ds.breaks.length === 0 && (
-                          <p className="text-xs text-slate-400 italic">No breaks configured.</p>
+                          <p className="text-xs text-slate-400 italic">{t("doctorForm.messages.noBreaks")}</p>
                         )}
                         {ds.breaks.map((b, bIdx) => (
                           <div key={bIdx} className="flex items-center gap-2 bg-white rounded-lg border px-3 py-2">
@@ -736,7 +737,7 @@ export function DoctorFormPage() {
                               className="h-7 text-xs w-24 border-0 bg-transparent p-0 font-medium focus-visible:ring-0"
                               value={b.label}
                               onChange={(e) => updateBreak(day, bIdx, "label", e.target.value)}
-                              placeholder="Label"
+                              placeholder={t("doctorForm.placeholders.breakPlaceholder")}
                             />
                             <span className="text-slate-300">|</span>
                             <Select
@@ -752,7 +753,7 @@ export function DoctorFormPage() {
                                 ))}
                               </SelectContent>
                             </Select>
-                            <span className="text-slate-400 text-xs">to</span>
+                            <span className="text-slate-400 text-xs">{t("doctorForm.labels.to")}</span>
                             <Select
                               value={b.end}
                               onValueChange={(v) => updateBreak(day, bIdx, "end", v)}
@@ -775,15 +776,13 @@ export function DoctorFormPage() {
                             </button>
                           </div>
                         ))}
-                        <Button
+                        <button
                           type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="gap-1.5 text-xs h-7 text-slate-500"
+                          className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-primary transition-colors py-1"
                           onClick={() => addBreak(day)}
                         >
-                          <Plus className="w-3.5 h-3.5" /> Add Break
-                        </Button>
+                          <Plus className="w-3.5 h-3.5" /> {t("doctorForm.buttons.addBreak")}
+                        </button>
                       </div>
                     )}
                   </div>
@@ -802,15 +801,15 @@ export function DoctorFormPage() {
           {success && (
             <div className="flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-3">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
-              Doctor saved successfully! Redirecting…
+              {t("doctorForm.messages.successSave")}
             </div>
           )}
 
           <div className="flex justify-between">
-            <Button variant="outline" onClick={() => setStep("slots")}>← Back</Button>
+            <Button variant="outline" onClick={() => setStep("slots")}>{t("doctorForm.buttons.back")}</Button>
             <Button onClick={handleSave} disabled={saving} className="gap-2">
               <Save className="w-4 h-4" />
-              {saving ? "Saving…" : isEdit ? "Save Changes" : "Create Doctor"}
+              {saving ? t("common.loading") : isEdit ? t("common.save") : t("admin.dashboard.addProvider")}
             </Button>
           </div>
         </div>

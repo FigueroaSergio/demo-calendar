@@ -1,0 +1,243 @@
+{
+  "common": {
+    "appName": "St. Glacier Medical",
+    "menu": "Menú",
+    "menuDescription": "Menú de navegación móvil",
+    "back": "Volver",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "loading": "Cargando...",
+    "footer": "© {{year}} St. Glacier Medical. Todos los derechos reservados.",
+    "specialties": {
+      "Cardiologist": "Cardiólogo",
+      "Pediatrician": "Pediatra",
+      "Neurologist": "Neurólogo",
+      "Dermatologist": "Dermatólogo",
+      "Orthopedist": "Traumatólogo",
+      "Psychiatrist": "Psiquiatra",
+      "Oncologist": "Oncólogo",
+      "General Practitioner": "Médico General",
+      "Radiologist": "Radiólogo",
+      "Endocrinologist": "Endocrinólogo"
+    },
+    "genders": {
+      "Male": "Masculino",
+      "Female": "Femenino",
+      "Non-binary": "No binario",
+      "Prefer not to say": "Prefiero no decirlo"
+    },
+    "days": {
+      "MON": "Lunes",
+      "TUE": "Martes",
+      "WED": "Miércoles",
+      "THU": "Jueves",
+      "FRI": "Viernes",
+      "SAT": "Sábado",
+      "SUN": "Domingo"
+    }
+  },
+  "nav": {
+    "book": "Reservar Cita",
+    "portal": "Mi Portal",
+    "admin": "Admin",
+    "doctors": "Doctores"
+  },
+  "admin": {
+    "dashboard": "Panel de Administración",
+    "doctorManagement": "Gestión de Doctores",
+    "manageStaff": "Gestione su personal médico, horarios y configuraciones de turnos.",
+    "addDoctor": "Agregar Doctor",
+    "stats": {
+      "totalDoctors": "Total Doctores",
+      "active": "Activos",
+      "slotConfigured": "Turnos Configurados",
+      "avgRating": "Calificación Promedio"
+    },
+    "table": {
+      "doctor": "Doctor",
+      "specialty": "Especialidad",
+      "experience": "Experiencia",
+      "rating": "Calificación",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "stats": {
+      "totalDoctors": "Total de Doctores",
+      "active": "Activo",
+      "slotConfigured": "Turnos Configurados",
+      "avgRating": "Calificación Promedio"
+    },
+    "dashboard": {
+      "title": "Resumen de Análisis",
+      "subtitle": "Datos de rendimiento institucional para St. Glacier Medical.",
+      "allProviders": "Todos los Proveedores",
+      "addProvider": "Agregar Proveedor",
+      "totalAppts": "Citas Totales",
+      "completionRate": "Tasa de Finalización",
+      "noShowRate": "Tasa de Inasistencia",
+      "upcomingToday": "Próximas Hoy",
+      "realTimeSchedule": "Horario en Tiempo Real",
+      "noAppts": "No hay citas activas programadas.",
+      "quickManagement": "Gestión Rápida",
+      "configureStaff": "Configurar horarios del personal",
+      "manageAllDoctors": "Gestionar Todos los Doctores",
+      "growth": "{{value}}% desde el mes pasado",
+      "densityWarning": "Los horarios están cerca de la densidad máxima"
+    },
+    "capacity": {
+      "title": "Gestión de Capacidad",
+      "subtitle": "Distribución del personal clínico en tiempo real",
+      "available": "DISPONIBLE",
+      "peak": "DEMANDA MÁXIMA",
+      "moderate": "MODERADA",
+      "efficient": "EFICIENTE",
+      "appointments": "{{count}} Citas",
+      "utilization": "{{value}}% de Utilización"
+    },
+    "heatmap": {
+      "title": "Densidad de Citas",
+      "subtitle": "Distribución semanal del volumen en las horas de atención",
+      "low": "BAJA",
+      "peak": "MÁXIMA",
+      "occupancy": "{{value}}% de Ocupación"
+    },
+    "availability": {
+      "title": "Configurar Disponibilidad",
+      "subtitle": "Estableciendo bloques activos para {{name}}. Estos turnos estarán disponibles para la reserva de pacientes.",
+      "workingSlots": "Turnos de Trabajo Estándar",
+      "saveButton": "Guardar Horario"
+    },
+    "provider": {
+      "addTitle": "Agregar Nuevo Proveedor",
+      "addSubtitle": "Ingrese los detalles del nuevo doctor para unirse a la lista del personal.",
+      "name": "Nombre",
+      "specialty": "Especialidad",
+      "experience": "Exp (Años)",
+      "gender": "Género",
+      "addButton": "Agregar Proveedor",
+      "male": "Masculino",
+      "female": "Femenino",
+      "other": "No binario"
+    },
+    "doctorForm": {
+      "titleEdit": "Editar Doctor",
+      "titleAdd": "Agregar Nuevo Doctor",
+      "subtitleEdit": "Editando a {{name}}",
+      "subtitleAdd": "Complete los detalles del doctor y la configuración de turnos.",
+      "stepProfile": "Perfil",
+      "stepSlots": "Turnos",
+      "stepAdvanced": "Horario",
+      "sections": {
+        "basic": "Información Básica",
+        "basicSubtitle": "Identidad y credenciales del doctor",
+        "slots": "Configuración de Turnos",
+        "slotsSubtitle": "Configure cómo se generan las citas",
+        "schedule": "Horario Semanal",
+        "scheduleSubtitle": "Configure las horas de trabajo y los periodos de descanso para cada día"
+      },
+      "labels": {
+        "fullName": "Nombre Completo",
+        "specialty": "Especialidad",
+        "location": "Ubicación / Clínica",
+        "experience": "Años de Experiencia",
+        "gender": "Género",
+        "avatar": "URL del Avatar",
+        "languages": "Idiomas",
+        "activeStatus": "Estado Activo",
+        "activeStatusSubtitle": "Los doctores inactivos no aparecerán en la búsqueda de pacientes",
+        "slotDuration": "Duración del Turno",
+        "buffer": "Descanso entre Turnos",
+        "maxPatients": "Max Pacientes / Turno",
+        "advanceBooking": "Reserva Anticipada (días)",
+        "minNotice": "Aviso Mínimo (horas)",
+        "autoConfirm": "Auto-confirmar Reservas",
+        "minutes": "{{count}} minutos",
+        "noBuffer": "Sin descanso",
+        "enabled": "Habilitado",
+        "disabled": "Deshabilitado",
+        "dayOff": "Día libre",
+        "breakPeriods": "Periodos de Descanso",
+        "to": "a"
+      },
+      "placeholders": {
+        "fullName": "Dr. Juan Pérez",
+        "specialty": "Seleccionar especialidad",
+        "addLanguage": "Agregar idioma..."
+      },
+      "buttons": {
+        "nextSlots": "Siguiente: Turnos →",
+        "nextSchedule": "Siguiente: Horario →",
+        "back": "← Volver",
+        "addBreak": "Agregar Descanso"
+      },
+      "preview": {
+        "title": "Vista Previa de Turnos",
+        "text": "Con un turno de {{duration}} min y un descanso de {{buffer}} min, cada bloque de cita toma {{total}} minutos. Una jornada laboral de 8 horas genera aproximadamente {{slots}} turnos."
+      },
+      "messages": {
+        "loading": "Cargando doctor...",
+        "errorName": "El nombre del doctor es obligatorio.",
+        "errorSpecialty": "La especialidad es obligatoria.",
+        "successSave": "¡Doctor guardado exitosamente!",
+        "noBreaks": "No hay descansos configurados.",
+        "breaksCount": "{{count}} descanso",
+        "breaksCount_plural": "{{count}} descansos"
+      }
+    },
+    "doctors": {
+      "searchPlaceholder": "Buscar...",
+      "noDoctors": "No se encontraron doctores.",
+      "deleteConfirm": "Esto eliminará permanentemente al doctor y toda su configuración. Esta acción no se puede deshacer.",
+      "inactive": "Inactivo",
+      "yrs": "años",
+      "defaultSlot": "Predeterminado",
+      "minSlots": "turnos de {{count}}min"
+    }
+  },
+  "patient": {
+    "search": {
+      "title": "Buscar Nombre del Proveedor",
+      "placeholder": "Dr. Smith...",
+      "specialty": "Especialidad",
+      "allSpecialties": "Todas las Especialidades",
+      "bookButton": "Reservar Cita",
+      "noResults": "No se encontraron proveedores que coincidan con sus criterios."
+    },
+    "booking": {
+      "backToSearch": "Volver a la Búsqueda",
+      "selectDate": "Seleccionar Fecha",
+      "selectTime": "Seleccionar Hora",
+      "confirmBooking": "Confirmar Reserva",
+      "details": "Detalles de la Cita",
+      "service": "Servicio",
+      "initialConsult": "Consulta Inicial",
+      "confirmButton": "Confirmar Cita",
+      "securing": "Asegurando su cita...",
+      "confirmed": "¡Reserva Confirmada!",
+      "successMessage": "Su cita con {{name}} el día {{date}} a las {{time}} ha sido programada con éxito.",
+      "bookAnother": "Reservar Otra",
+      "viewPortal": "Ver Mi Portal",
+      "listView": "Lista",
+      "calendarView": "Calendario",
+      "slotsAvailable": "{{count}} turnos disponibles",
+      "noSlots": "No se encontró disponibilidad para el período solicitado."
+    },
+    "portal": {
+      "title": "Su Portal del Paciente",
+      "subtitle": "Gestione sus citas, registros de salud y perfil.",
+      "upcoming": "Próximas Citas",
+      "noUpcoming": "No tiene citas próximas.",
+      "bookNow": "Reservar una Cita",
+      "telehealth": "Telemedicina disponible",
+      "cancelConfirm": "¿Está seguro de que desea cancelar?",
+      "cancelButton": "Cancelar",
+      "reschedule": "Reprogramar",
+      "profileInfo": "Información del Perfil",
+      "nameLabel": "Nombre",
+      "emailLabel": "Correo electrónico",
+      "editProfile": "Editar Perfil",
+      "pastVisits": "Visitas Pasadas"
+    }
+  }
+}

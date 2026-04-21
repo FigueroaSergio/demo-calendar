@@ -1,0 +1,243 @@
+{
+  "common": {
+    "appName": "St. Glacier Medical",
+    "menu": "Menu",
+    "menuDescription": "Mobile navigation menu",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "footer": "© {{year}} St. Glacier Medical. All rights reserved.",
+    "specialties": {
+      "Cardiologist": "Cardiologist",
+      "Pediatrician": "Pediatrician",
+      "Neurologist": "Neurologist",
+      "Dermatologist": "Dermatologist",
+      "Orthopedist": "Orthopedist",
+      "Psychiatrist": "Psychiatrist",
+      "Oncologist": "Oncologist",
+      "General Practitioner": "General Practitioner",
+      "Radiologist": "Radiologist",
+      "Endocrinologist": "Endocrinologist"
+    },
+    "genders": {
+      "Male": "Male",
+      "Female": "Female",
+      "Non-binary": "Non-binary",
+      "Prefer not to say": "Prefer not to say"
+    },
+    "days": {
+      "MON": "Monday",
+      "TUE": "Tuesday",
+      "WED": "Wednesday",
+      "THU": "Thursday",
+      "FRI": "Friday",
+      "SAT": "Saturday",
+      "SUN": "Sunday"
+    }
+  },
+  "nav": {
+    "book": "Book Appointment",
+    "portal": "My Portal",
+    "admin": "Admin",
+    "doctors": "Doctors"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "doctorManagement": "Doctor Management",
+    "manageStaff": "Manage your medical staff, schedules, and slot configurations.",
+    "addDoctor": "Add Doctor",
+    "stats": {
+      "totalDoctors": "Total Doctors",
+      "active": "Active",
+      "slotConfigured": "Slot Configured",
+      "avgRating": "Avg Rating"
+    },
+    "table": {
+      "doctor": "Doctor",
+      "specialty": "Specialty",
+      "experience": "Experience",
+      "rating": "Rating",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "stats": {
+      "totalDoctors": "Total Doctors",
+      "active": "Active",
+      "slotConfigured": "Slot Configured",
+      "avgRating": "Avg Rating"
+    },
+    "dashboard": {
+      "title": "Analytics Overview",
+      "subtitle": "Institutional performance data for St. Glacier Medical.",
+      "allProviders": "All Providers",
+      "addProvider": "Add Provider",
+      "totalAppts": "Total Appointments",
+      "completionRate": "Completion Rate",
+      "noShowRate": "No-Show Rate",
+      "upcomingToday": "Upcoming Today",
+      "realTimeSchedule": "Real-time Schedule",
+      "noAppts": "No appointments scheduled active.",
+      "quickManagement": "Quick Management",
+      "configureStaff": "Configure staff schedules",
+      "manageAllDoctors": "Manage All Doctors",
+      "growth": "{{value}}% from last month",
+      "densityWarning": "Schedules are near max density"
+    },
+    "capacity": {
+      "title": "Capacity Management",
+      "subtitle": "Real-time clinical staff distribution",
+      "available": "AVAILABLE",
+      "peak": "PEAK DEMAND",
+      "moderate": "MODERATE",
+      "efficient": "EFFICIENT",
+      "appointments": "{{count}} Appointments",
+      "utilization": "{{value}}% Utilization"
+    },
+    "heatmap": {
+      "title": "Appointment Density",
+      "subtitle": "Weekly volume distribution across operating hours",
+      "low": "LOW",
+      "peak": "PEAK",
+      "occupancy": "{{value}}% Occupancy"
+    },
+    "availability": {
+      "title": "Configure Availability",
+      "subtitle": "Setting active blocks for {{name}}. These slots will be available for patient booking.",
+      "workingSlots": "Standard Working Slots",
+      "saveButton": "Save Schedule"
+    },
+    "provider": {
+      "addTitle": "Add New Provider",
+      "addSubtitle": "Enter the details for the new doctor to join the staff list.",
+      "name": "Name",
+      "specialty": "Specialty",
+      "experience": "Exp (Years)",
+      "gender": "Gender",
+      "addButton": "Add Provider",
+      "male": "Male",
+      "female": "Female",
+      "other": "Non-binary"
+    },
+    "doctorForm": {
+      "titleEdit": "Edit Doctor",
+      "titleAdd": "Add New Doctor",
+      "subtitleEdit": "Editing {{name}}",
+      "subtitleAdd": "Fill in the doctor's details and slot configuration.",
+      "stepProfile": "Profile",
+      "stepSlots": "Time Slots",
+      "stepAdvanced": "Schedule",
+      "sections": {
+        "basic": "Basic Information",
+        "basicSubtitle": "Doctor identity and credentials",
+        "slots": "Slot Settings",
+        "slotsSubtitle": "Configure how appointments are generated",
+        "schedule": "Weekly Schedule",
+        "scheduleSubtitle": "Configure working hours and break periods for each day"
+      },
+      "labels": {
+        "fullName": "Full Name",
+        "specialty": "Specialty",
+        "location": "Location / Clinic",
+        "experience": "Years of Experience",
+        "gender": "Gender",
+        "avatar": "Avatar URL",
+        "languages": "Languages",
+        "activeStatus": "Active Status",
+        "activeStatusSubtitle": "Inactive doctors won't appear in patient search",
+        "slotDuration": "Slot Duration",
+        "buffer": "Buffer Between Slots",
+        "maxPatients": "Max Patients / Slot",
+        "advanceBooking": "Advance Booking (days)",
+        "minNotice": "Minimum Notice (hours)",
+        "autoConfirm": "Auto-Confirm Bookings",
+        "minutes": "{{count}} minutes",
+        "noBuffer": "No buffer",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+        "dayOff": "Day off",
+        "breakPeriods": "Break Periods",
+        "to": "to"
+      },
+      "placeholders": {
+        "fullName": "Dr. John Smith",
+        "specialty": "Select specialty",
+        "addLanguage": "Add language..."
+      },
+      "buttons": {
+        "nextSlots": "Next: Time Slots →",
+        "nextSchedule": "Next: Schedule →",
+        "back": "← Back",
+        "addBreak": "Add Break"
+      },
+      "preview": {
+        "title": "Slot Preview",
+        "text": "With a {{duration}}min slot and {{buffer}}min buffer, each appointment block takes {{total}} minutes. An 8-hour workday generates approximately {{slots}} slots."
+      },
+      "messages": {
+        "loading": "Loading doctor...",
+        "errorName": "Doctor name is required.",
+        "errorSpecialty": "Specialty is required.",
+        "successSave": "Doctor saved successfully!",
+        "noBreaks": "No breaks configured.",
+        "breaksCount": "{{count}} break",
+        "breaksCount_plural": "{{count}} breaks"
+      },
+      "doctors": {
+        "searchPlaceholder": "Search...",
+        "noDoctors": "No doctors found.",
+        "deleteConfirm": "This will permanently remove the doctor and all their configuration. This action cannot be undone.",
+        "inactive": "Inactive",
+        "yrs": "yrs",
+        "defaultSlot": "Default",
+        "minSlots": "{{count}}min slots"
+      }
+    }
+  },
+  "patient": {
+    "search": {
+      "title": "Search Provider Name",
+      "placeholder": "Dr. Smith...",
+      "specialty": "Specialty",
+      "allSpecialties": "All Specialties",
+      "bookButton": "Book Appointment",
+      "noResults": "No providers found matching your criteria."
+    },
+    "booking": {
+      "backToSearch": "Back to Search",
+      "selectDate": "Select Date",
+      "selectTime": "Select Time",
+      "confirmBooking": "Confirm Booking",
+      "details": "Appointment Details",
+      "service": "Service",
+      "initialConsult": "Initial Consultation",
+      "confirmButton": "Confirm Appointment",
+      "securing": "Securing your appointment...",
+      "confirmed": "Booking Confirmed!",
+      "successMessage": "Your appointment with {{name}} on {{date}} at {{time}} has been successfully scheduled.",
+      "bookAnother": "Book Another",
+      "viewPortal": "View My Portal",
+      "listView": "List",
+      "calendarView": "Calendar",
+      "slotsAvailable": "{{count}} slots available",
+      "noSlots": "No availability found for the requested period."
+    },
+    "portal": {
+      "title": "Your Patient Portal",
+      "subtitle": "Manage your appointments, health records, and profile.",
+      "upcoming": "Upcoming Appointments",
+      "noUpcoming": "You have no upcoming appointments.",
+      "bookNow": "Book an Appointment",
+      "telehealth": "Telehealth available",
+      "cancelConfirm": "Are you sure you want to cancel?",
+      "cancelButton": "Cancel",
+      "reschedule": "Reschedule",
+      "profileInfo": "Profile Info",
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "editProfile": "Edit Profile",
+      "pastVisits": "Past Visits"
+    }
+  }
+}

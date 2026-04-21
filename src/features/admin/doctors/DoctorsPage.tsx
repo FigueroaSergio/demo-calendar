@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Card,
   CardContent,
@@ -54,6 +55,7 @@ const SPECIALTIES = [
 ];
 
 export function DoctorsPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [providers, setProviders] = useState<Provider[]>([]);
   const [loading, setLoading] = useState(true);
@@ -120,27 +122,27 @@ export function DoctorsPage() {
       <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-            Doctor Management
+            {t("admin.doctorManagement")}
           </h2>
           <p className="text-muted-foreground mt-1">
-            Manage your medical staff, schedules, and slot configurations.
+            {t("admin.manageStaff")}
           </p>
         </div>
         <Button
           onClick={() => navigate("/admin/doctors/new")}
           className="gap-2 shrink-0"
         >
-          <Plus className="w-4 h-4" /> Add Doctor
+          <Plus className="w-4 h-4" /> {t("admin.addDoctor")}
         </Button>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: "Total Doctors", value: stats.total, icon: Users, color: "text-blue-600" },
-          { label: "Active", value: stats.active, icon: Activity, color: "text-emerald-600" },
-          { label: "Slot Configured", value: stats.withSlotConfig, icon: Clock, color: "text-purple-600" },
-          { label: "Avg Rating", value: stats.avgRating, icon: Star, color: "text-amber-500" },
+          { label: t("admin.stats.totalDoctors"), value: stats.total, icon: Users, color: "text-blue-600" },
+          { label: t("admin.stats.active"), value: stats.active, icon: Activity, color: "text-emerald-600" },
+          { label: t("admin.stats.slotConfigured"), value: stats.withSlotConfig, icon: Clock, color: "text-purple-600" },
+          { label: t("admin.stats.avgRating"), value: stats.avgRating, icon: Star, color: "text-amber-500" },
         ].map(({ label, value, icon: Icon, color }) => (
           <Card key={label}>
             <CardContent className="p-5">
@@ -159,14 +161,14 @@ export function DoctorsPage() {
         <CardHeader className="pb-4">
           <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
             <div>
-              <CardTitle>All Doctors</CardTitle>
-              <CardDescription>{filtered.length} doctors found</CardDescription>
+              <CardTitle>{t("admin.dashboard.realTimeSchedule")}</CardTitle>
+              <CardDescription>{filtered.length} {t("admin.doctorManagement").toLowerCase()}</CardDescription>
             </div>
             <div className="flex flex-wrap gap-2 w-full sm:w-auto">
               <div className="relative flex-1 min-w-[180px]">
                 <Search className="absolute left-2.5 top-2.5 w-4 h-4 text-slate-400" />
                 <Input
-                  placeholder="Search name or specialty…"
+                  placeholder={t("doctorForm.doctors.searchPlaceholder")}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="pl-8"
@@ -178,7 +180,9 @@ export function DoctorsPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {SPECIALTIES.map((s) => (
-                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                    <SelectItem key={s} value={s}>
+                      {s === "All" ? t("patient.search.allSpecialties") : t(`common.specialties.${s}`)}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -187,9 +191,9 @@ export function DoctorsPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="All">All Status</SelectItem>
-                  <SelectItem value="Active">Active</SelectItem>
-                  <SelectItem value="Inactive">Inactive</SelectItem>
+                  <SelectItem value="All">{t("admin.stats.active")} / {t("admin.table.status")}</SelectItem>
+                  <SelectItem value="Active">{t("admin.stats.active")}</SelectItem>
+                  <SelectItem value="Inactive">{t("doctorForm.doctors.inactive")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -200,25 +204,25 @@ export function DoctorsPage() {
           {loading ? (
             <div className="py-16 text-center text-slate-400">
               <Stethoscope className="w-8 h-8 mx-auto mb-3 animate-pulse" />
-              Loading doctors…
+              {t("common.loading")}
             </div>
           ) : filtered.length === 0 ? (
             <div className="py-16 text-center text-slate-400">
               <Users className="w-8 h-8 mx-auto mb-3 opacity-40" />
-              No doctors match your filters.
+              {t("doctorForm.doctors.noDoctors")}
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b bg-slate-50 text-left">
-                    <th className="px-6 py-3 font-semibold text-slate-600">Doctor</th>
-                    <th className="px-6 py-3 font-semibold text-slate-600">Specialty</th>
-                    <th className="px-6 py-3 font-semibold text-slate-600">Experience</th>
-                    <th className="px-6 py-3 font-semibold text-slate-600">Rating</th>
-                    <th className="px-6 py-3 font-semibold text-slate-600">Slot Config</th>
-                    <th className="px-6 py-3 font-semibold text-slate-600">Status</th>
-                    <th className="px-6 py-3 font-semibold text-slate-600 text-right">Actions</th>
+                    <th className="px-6 py-3 font-semibold text-slate-600">{t("admin.table.doctor")}</th>
+                    <th className="px-6 py-3 font-semibold text-slate-600">{t("admin.table.specialty")}</th>
+                    <th className="px-6 py-3 font-semibold text-slate-600">{t("admin.table.experience")}</th>
+                    <th className="px-6 py-3 font-semibold text-slate-600">{t("admin.table.rating")}</th>
+                    <th className="px-6 py-3 font-semibold text-slate-600">{t("admin.doctorForm.stepSlots")}</th>
+                    <th className="px-6 py-3 font-semibold text-slate-600">{t("admin.table.status")}</th>
+                    <th className="px-6 py-3 font-semibold text-slate-600 text-right">{t("admin.table.actions")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -244,12 +248,12 @@ export function DoctorsPage() {
                       {/* Specialty */}
                       <td className="px-6 py-4">
                         <Badge variant="secondary" className="font-medium">
-                          {p.specialty}
+                          {t(`common.specialties.${p.specialty}`)}
                         </Badge>
                       </td>
                       {/* Experience */}
                       <td className="px-6 py-4 text-slate-600">
-                        {p.experienceYears} yrs
+                        {p.experienceYears} {t("doctorForm.doctors.yrs")}
                       </td>
                       {/* Rating */}
                       <td className="px-6 py-4">
@@ -264,21 +268,21 @@ export function DoctorsPage() {
                         {p.slotConfig ? (
                           <span className="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5 font-medium">
                             <Clock className="w-3 h-3" />
-                            {p.slotConfig.slotDurationMinutes}min slots
+                            {t("doctorForm.doctors.minSlots", { count: p.slotConfig.slotDurationMinutes })}
                           </span>
                         ) : (
-                          <span className="text-xs text-slate-400">Default</span>
+                          <span className="text-xs text-slate-400">{t("doctorForm.doctors.defaultSlot")}</span>
                         )}
                       </td>
                       {/* Status */}
                       <td className="px-6 py-4">
                         {p.isActive === false ? (
                           <Badge variant="outline" className="text-slate-500 border-slate-300">
-                            Inactive
+                            {t("doctorForm.doctors.inactive")}
                           </Badge>
                         ) : (
                           <Badge className="bg-emerald-100 text-emerald-700 border-0 hover:bg-emerald-100">
-                            Active
+                            {t("admin.stats.active")}
                           </Badge>
                         )}
                       </td>
@@ -290,7 +294,7 @@ export function DoctorsPage() {
                             size="icon"
                             className="h-8 w-8"
                             onClick={() => navigate(`/admin/doctors/${p.id}/edit`)}
-                            title="Edit doctor"
+                            title="Edit"
                           >
                             <Pencil className="w-4 h-4 text-slate-500" />
                           </Button>
@@ -299,7 +303,7 @@ export function DoctorsPage() {
                             size="icon"
                             className="h-8 w-8 hover:bg-red-50"
                             onClick={() => setDeleteTarget(p)}
-                            title="Delete doctor"
+                            title={t("common.delete")}
                           >
                             <Trash2 className="w-4 h-4 text-red-400" />
                           </Button>
@@ -318,20 +322,19 @@ export function DoctorsPage() {
       <AlertDialog open={!!deleteTarget} onOpenChange={(o) => !o && setDeleteTarget(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete {deleteTarget?.name}?</AlertDialogTitle>
+            <AlertDialogTitle>{t("common.delete")} {deleteTarget?.name}?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently remove the doctor and all their configuration.
-              This action cannot be undone.
+              {t("doctorForm.doctors.deleteConfirm")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={deleting}>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               disabled={deleting}
               className="bg-red-600 hover:bg-red-700"
             >
-              {deleting ? "Deleting…" : "Delete"}
+              {deleting ? t("common.loading") : t("common.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

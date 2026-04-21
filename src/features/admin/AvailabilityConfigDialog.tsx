@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '../../components/ui/dialog';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
@@ -13,6 +14,7 @@ interface AvailabilityConfigDialogProps {
 }
 
 export function AvailabilityConfigDialog({ open, onOpenChange, provider }: AvailabilityConfigDialogProps) {
+  const { t } = useTranslation();
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   
@@ -48,14 +50,14 @@ export function AvailabilityConfigDialog({ open, onOpenChange, provider }: Avail
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Configure Availability</DialogTitle>
+          <DialogTitle>{t('admin.availability.title')}</DialogTitle>
           <DialogDescription>
-            Setting active blocks for {provider?.name}. These slots will be available for patient booking.
+            {t('admin.availability.subtitle', { name: provider?.name })}
           </DialogDescription>
         </DialogHeader>
         
         <div className="py-6">
-           <h4 className="text-sm font-medium mb-4">Standard Working Slots</h4>
+           <h4 className="text-sm font-medium mb-4">{t('admin.availability.workingSlots')}</h4>
            <div className="grid grid-cols-4 gap-2">
              {allSlots.map(slot => (
                <Badge 
@@ -71,9 +73,9 @@ export function AvailabilityConfigDialog({ open, onOpenChange, provider }: Avail
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>{t('common.cancel')}</Button>
           <Button onClick={handleSave} disabled={loading}>
-            {loading ? "Saving..." : "Save Schedule"}
+            {loading ? t('common.loading') : t('admin.availability.saveButton')}
           </Button>
         </DialogFooter>
       </DialogContent>
