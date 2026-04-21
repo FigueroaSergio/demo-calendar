@@ -1,0 +1,270 @@
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "../../components/ui/card";
+import { Badge } from "../../components/ui/badge";
+import { Button } from "../../components/ui/button";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../../components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
+import {
+  appointmentRepository,
+  providerRepository,
+} from "../../application/services";
+import type { Appointment } from "../../domain/models/Appointment";
+import type { Provider } from "../../domain/models/Provider";
+import {
+  Users,
+  CalendarCheck,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  Plus,
+  Settings,
+} from "lucide-react";
+import { CapacityList } from "./CapacityList";
+import { DensityHeatmap } from "./DensityHeatmap";
+import { ProviderFormDialog } from "./ProviderFormDialog";
+import { AvailabilityConfigDialog } from "./AvailabilityConfigDialog";
+
+export function AdminDashboard() {
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [providers, setProviders] = useState<Provider[]>([]);
+  const [selectedProvider, setSelectedProvider] = useState<string>("ALL");
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isAvailOpen, setIsAvailOpen] = useState(false);
+  const [activeProviderForAvail, setActiveProviderForAvail] =
+    useState<Provider | null>(null);
+
+  const load = async () => {
+    const provs = await providerRepository.getAllProviders();
+    setProviders(provs);
+
+    let allAppts: Appointment[] = [];
+    if (selectedProvider === "ALL") {
+      for (const p of provs) {
+        allAppts = [
+          ...allAppts,
+          ...(await appointmentRepository.getAppointmentsByProvider(p.id)),
+        ];
+      }
+    } else {
+      allAppts =
+        await appointmentRepository.getAppointmentsByProvider(selectedProvider);
+    }
+    setAppointments(allAppts);
+  };
+
+  useEffect(() => {
+    load();
+  }, [selectedProvider]);
+
+  // Analytics Math
+  const total = appointments.length;
+  const completed = appointments.filter((a) => a.status === "COMPLETED").length;
+  const noShow = appointments.filter((a) => a.status === "NO_SHOW").length;
+  const currPending = appointments.filter(
+    (a) => a.status === "PENDING" || a.status === "CONFIRMED",
+  ).length;
+
+  return (
+    <div className="w-full space-y-6">
+      <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+            Analytics Overview
+          </h2>
+          <p className="text-muted-foreground mt-1">
+            Institutional performance data for St. Glacier Medical.
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Select value={selectedProvider} onValueChange={setSelectedProvider}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="All Providers" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">All Providers</SelectItem>
+              {providers.map((p) => (
+                <SelectItem key={p.id} value={p.id}>
+                  {p.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button onClick={() => setIsAddOpen(true)} className="gap-2">
+            <Plus className="w-4 h-4" /> Add Provider
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between space-y-0 pb-2">
+              <p className="text-sm font-medium uppercase text-slate-500">
+                Total Appointments
+              </p>
+              <Users className="h-4 w-4 text-blue-600" />
+            </div>
+            <div className="text-3xl font-bold">{total}</div>
+            <p className="text-xs text-emerald-500 font-medium mt-1">
+              +12.5% from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between space-y-0 pb-2">
+              <p className="text-sm font-medium uppercase text-slate-500">
+                Completion Rate
+              </p>
+              <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            </div>
+            <div className="text-3xl font-bold">
+              {total > 0 ? Math.round((completed / total) * 100) : 0}%
+            </div>
+            <p className="text-xs text-emerald-500 font-medium mt-1">
+              +3.2% from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between space-y-0 pb-2">
+              <p className="text-sm font-medium uppercase text-slate-500">
+                No-Show Rate
+              </p>
+              <XCircle className="h-4 w-4 text-red-500" />
+            </div>
+            <div className="text-3xl font-bold">
+              {total > 0 ? Math.round((noShow / total) * 100) : 0}%
+            </div>
+            <p className="text-xs text-red-500 font-medium mt-1">
+              +0.8% from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between space-y-0 pb-2">
+              <p className="text-sm font-medium uppercase text-slate-500">
+                Upcoming Today
+              </p>
+              <CalendarCheck className="h-4 w-4 text-purple-600" />
+            </div>
+            <div className="text-3xl font-bold">{currPending}</div>
+            <p className="text-xs text-slate-500 font-medium mt-1">
+              Schedules are near max density
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          <DensityHeatmap />
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex justify-between items-center">
+                Real-time Schedule
+                <Clock className="w-4 h-4 text-slate-400" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {appointments.slice(0, 5).map((a) => {
+                  const p = providers.find((prov) => prov.id === a.providerId);
+                  return (
+                    <div
+                      key={a.id}
+                      className="flex justify-between items-center border-b pb-2 last:border-0 hover:bg-slate-50 transition-colors p-2 rounded-md -mx-2"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                          {a.patientId.substring(0, 2).toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="font-medium text-sm">
+                            Patient {a.patientId}
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            {p?.name || "Unknown"}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-sm text-slate-900">
+                          {a.time}
+                        </p>
+                        <p className="text-[10px] uppercase font-bold text-emerald-600">
+                          {a.status}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+                {appointments.length === 0 && (
+                  <div className="text-sm text-slate-500 py-4 text-center">
+                    No appointments scheduled active.
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="space-y-6">
+          <CapacityList providers={providers} appointments={appointments} />
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Management</CardTitle>
+              <CardDescription>Configure staff schedules</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {providers.map((p) => (
+                <div key={p.id} className="flex items-center justify-between">
+                  <div className="text-sm font-medium">{p.name}</div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setActiveProviderForAvail(p);
+                      setIsAvailOpen(true);
+                    }}
+                  >
+                    <Settings className="w-4 h-4 text-slate-400" />
+                  </Button>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      <ProviderFormDialog
+        open={isAddOpen}
+        onOpenChange={setIsAddOpen}
+        onSuccess={load}
+      />
+      <AvailabilityConfigDialog
+        open={isAvailOpen}
+        onOpenChange={setIsAvailOpen}
+        provider={activeProviderForAvail}
+      />
+    </div>
+  );
+}
