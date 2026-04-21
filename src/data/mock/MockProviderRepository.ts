@@ -3,6 +3,7 @@ import type {
   Provider,
   ProviderAvailability,
   CreateProviderDTO,
+  UpdateProviderDTO,
 } from "../../domain/models/Provider.ts";
 import { delay } from "../utils.ts";
 
@@ -117,6 +118,20 @@ export class MockProviderRepository implements IProviderRepository {
     };
     MOCK_PROVIDERS.push(newProvider);
     return newProvider;
+  }
+
+  async updateProvider(id: string, dto: UpdateProviderDTO): Promise<Provider> {
+    await delay(600);
+    const idx = MOCK_PROVIDERS.findIndex((p) => p.id === id);
+    if (idx === -1) throw new Error(`Provider ${id} not found`);
+    MOCK_PROVIDERS[idx] = { ...MOCK_PROVIDERS[idx], ...dto };
+    return MOCK_PROVIDERS[idx];
+  }
+
+  async deleteProvider(id: string): Promise<void> {
+    await delay(500);
+    const idx = MOCK_PROVIDERS.findIndex((p) => p.id === id);
+    if (idx !== -1) MOCK_PROVIDERS.splice(idx, 1);
   }
 
   async updateAvailability(providerId: string, availability: ProviderAvailability[]): Promise<void> {

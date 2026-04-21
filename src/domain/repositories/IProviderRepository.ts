@@ -1,4 +1,4 @@
-import type { Provider, ProviderAvailability, CreateProviderDTO } from "../models/Provider.ts";
+import type { Provider, ProviderAvailability, CreateProviderDTO, UpdateProviderDTO } from "../models/Provider.ts";
 
 export interface IProviderRepository {
   getAllProviders(): Promise<Provider[]>;
@@ -10,6 +10,7 @@ export interface IProviderRepository {
     dateEnd: string,
   ): Promise<ProviderAvailability[]>;
   createProvider(dto: CreateProviderDTO): Promise<Provider>;
+  updateProvider(id: string, dto: UpdateProviderDTO): Promise<Provider>;
+  deleteProvider(id: string): Promise<void>;
   updateAvailability(providerId: string, availability: ProviderAvailability[]): Promise<void>;
 }
-

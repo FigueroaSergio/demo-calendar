@@ -18,14 +18,14 @@ export function DensityHeatmap() {
           <CardDescription>Weekly volume distribution across operating hours</CardDescription>
         </div>
         <div className="flex gap-2 text-[10px] items-center">
-          <span className="text-slate-400">LOW</span>
+          <span className="text-muted-foreground">LOW</span>
           <div className="flex gap-0.5">
-            <div className="w-3 h-3 bg-blue-50 rounded-[2px]" />
-            <div className="w-3 h-3 bg-blue-200 rounded-[2px]" />
-            <div className="w-3 h-3 bg-blue-400 rounded-[2px]" />
-            <div className="w-3 h-3 bg-blue-600 rounded-[2px]" />
+            <div className="w-3 h-3 bg-primary/10 rounded-[2px]" />
+            <div className="w-3 h-3 bg-primary/30 rounded-[2px]" />
+            <div className="w-3 h-3 bg-primary/60 rounded-[2px]" />
+            <div className="w-3 h-3 bg-primary rounded-[2px]" />
           </div>
-          <span className="text-slate-400">PEAK</span>
+          <span className="text-muted-foreground">PEAK</span>
         </div>
       </CardHeader>
       <CardContent>
@@ -33,13 +33,13 @@ export function DensityHeatmap() {
           <div className="space-y-3 min-w-[700px]">
             {days.map((day, dIdx) => (
               <div key={day} className="flex items-center gap-4">
-                <span className="text-[10px] font-bold text-slate-400 w-8">{day}</span>
+                <span className="text-[10px] font-bold text-muted-foreground w-8">{day}</span>
                 <div className="flex-1 grid grid-cols-12 gap-1.5">
                   {grid[dIdx].map((val, tIdx) => {
-                    let bgColor = "bg-blue-50";
-                    if (val > 0.8) bgColor = "bg-blue-600";
-                    else if (val > 0.5) bgColor = "bg-blue-400";
-                    else if (val > 0.2) bgColor = "bg-blue-200";
+                    let bgColor = "bg-primary/10";
+                    if (val > 0.8) bgColor = "bg-primary";
+                    else if (val > 0.5) bgColor = "bg-primary/60";
+                    else if (val > 0.2) bgColor = "bg-primary/30";
                     
                     return (
                       <div 
@@ -56,7 +56,7 @@ export function DensityHeatmap() {
               <span className="w-8" />
               <div className="flex-1 flex justify-between px-1">
                 {times.map(time => (
-                  <span key={time} className="text-[10px] font-medium text-slate-400">{time}</span>
+                  <span key={time} className="text-[10px] font-medium text-muted-foreground">{time}</span>
                 ))}
               </div>
             </div>

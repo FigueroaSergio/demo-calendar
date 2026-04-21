@@ -37,15 +37,15 @@ export function CapacityList({ providers, appointments }: CapacityListProps) {
           }
 
           return (
-            <div key={p.id} className="space-y-3">
+            <div key={p.id} className="space-y-3 font-theme">
               <div className="flex justify-between items-center">
-                <span className="font-semibold text-slate-900">{p.name}</span>
+                <span className="font-semibold text-foreground">{p.name}</span>
                 <Badge variant={badgeVariant} className="text-[10px] py-0 px-2">
                   {status}
                 </Badge>
               </div>
               <Progress value={utilization} className="h-2" />
-              <div className="flex justify-between text-xs text-slate-500 font-medium">
+              <div className="flex justify-between text-xs text-muted-foreground font-medium">
                 <span>{apptCount} Appointments</span>
                 <span>{utilization}% Utilization</span>
               </div>

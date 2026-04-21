@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -35,6 +36,7 @@ import {
   Clock,
   Plus,
   Settings,
+  Stethoscope,
 } from "lucide-react";
 import { CapacityList } from "./CapacityList";
 import { DensityHeatmap } from "./DensityHeatmap";
@@ -42,6 +44,7 @@ import { ProviderFormDialog } from "./ProviderFormDialog";
 import { AvailabilityConfigDialog } from "./AvailabilityConfigDialog";
 
 export function AdminDashboard() {
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [providers, setProviders] = useState<Provider[]>([]);
   const [selectedProvider, setSelectedProvider] = useState<string>("ALL");
@@ -85,7 +88,7 @@ export function AdminDashboard() {
     <div className="w-full space-y-6">
       <div className="flex flex-col md:flex-row justify-between md:items-end gap-4">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">
             Analytics Overview
           </h2>
           <p className="text-muted-foreground mt-1">
@@ -116,13 +119,13 @@ export function AdminDashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between space-y-0 pb-2">
-              <p className="text-sm font-medium uppercase text-slate-500">
+              <p className="text-sm font-medium uppercase text-muted-foreground">
                 Total Appointments
               </p>
-              <Users className="h-4 w-4 text-blue-600" />
+              <Users className="h-4 w-4 text-primary" />
             </div>
             <div className="text-3xl font-bold">{total}</div>
-            <p className="text-xs text-emerald-500 font-medium mt-1">
+            <p className="text-xs text-muted-foreground font-medium mt-1">
               +12.5% from last month
             </p>
           </CardContent>
@@ -130,15 +133,15 @@ export function AdminDashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between space-y-0 pb-2">
-              <p className="text-sm font-medium uppercase text-slate-500">
+              <p className="text-sm font-medium uppercase text-muted-foreground">
                 Completion Rate
               </p>
-              <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+              <CheckCircle2 className="h-4 w-4 text-primary" />
             </div>
             <div className="text-3xl font-bold">
               {total > 0 ? Math.round((completed / total) * 100) : 0}%
             </div>
-            <p className="text-xs text-emerald-500 font-medium mt-1">
+            <p className="text-xs text-emerald-600 font-medium mt-1">
               +3.2% from last month
             </p>
           </CardContent>
@@ -146,15 +149,15 @@ export function AdminDashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between space-y-0 pb-2">
-              <p className="text-sm font-medium uppercase text-slate-500">
+              <p className="text-sm font-medium uppercase text-muted-foreground">
                 No-Show Rate
               </p>
-              <XCircle className="h-4 w-4 text-red-500" />
+              <XCircle className="h-4 w-4 text-destructive" />
             </div>
             <div className="text-3xl font-bold">
               {total > 0 ? Math.round((noShow / total) * 100) : 0}%
             </div>
-            <p className="text-xs text-red-500 font-medium mt-1">
+            <p className="text-xs text-destructive font-medium mt-1">
               +0.8% from last month
             </p>
           </CardContent>
@@ -162,13 +165,13 @@ export function AdminDashboard() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between space-y-0 pb-2">
-              <p className="text-sm font-medium uppercase text-slate-500">
+              <p className="text-sm font-medium uppercase text-muted-foreground">
                 Upcoming Today
               </p>
-              <CalendarCheck className="h-4 w-4 text-purple-600" />
+              <CalendarCheck className="h-4 w-4 text-primary" />
             </div>
             <div className="text-3xl font-bold">{currPending}</div>
-            <p className="text-xs text-slate-500 font-medium mt-1">
+            <p className="text-xs text-muted-foreground font-medium mt-1">
               Schedules are near max density
             </p>
           </CardContent>
@@ -192,23 +195,23 @@ export function AdminDashboard() {
                   return (
                     <div
                       key={a.id}
-                      className="flex justify-between items-center border-b pb-2 last:border-0 hover:bg-slate-50 transition-colors p-2 rounded-md -mx-2"
+                      className="flex justify-between items-center border-b pb-2 last:border-0 hover:bg-muted/30 transition-colors p-2 rounded-md -mx-2"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
                           {a.patientId.substring(0, 2).toUpperCase()}
                         </div>
                         <div>
                           <p className="font-medium text-sm">
                             Patient {a.patientId}
                           </p>
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-muted-foreground">
                             {p?.name || "Unknown"}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-sm text-slate-900">
+                        <p className="font-bold text-sm text-foreground">
                           {a.time}
                         </p>
                         <p className="text-[10px] uppercase font-bold text-emerald-600">
@@ -250,6 +253,16 @@ export function AdminDashboard() {
                   </Button>
                 </div>
               ))}
+              <div className="pt-2 border-t">
+                <Button 
+                  variant="outline" 
+                  className="w-full gap-2 text-slate-600 border-slate-200"
+                  onClick={() => navigate("/admin/doctors")}
+                >
+                  <Stethoscope className="w-4 h-4" />
+                  Manage All Doctors
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
