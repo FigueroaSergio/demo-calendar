@@ -237,7 +237,20 @@
       "nameLabel": "Nombre",
       "emailLabel": "Correo electrónico",
       "editProfile": "Editar Perfil",
-      "pastVisits": "Visitas Pasadas"
+      "pastVisits": "Visitas Pasadas",
+      "appointmentStatus": {
+        "PENDING": "Pendiente",
+        "CONFIRMED": "Confirmada",
+        "CANCELLED": "Cancelada",
+        "COMPLETED": "Completada",
+        "NO_SHOW": "No se presentó"
+      },
+      "appointmentType": {
+        "INITIAL_CONSULTATION": "Consulta Inicial",
+        "FOLLOW_UP": "Seguimiento",
+        "URGENT": "Urgente",
+        "LAB_RESULTS": "Resultados de Laboratorio"
+      }
     }
   }
 }

@@ -237,7 +237,20 @@
       "nameLabel": "Name",
       "emailLabel": "Email",
       "editProfile": "Edit Profile",
-      "pastVisits": "Past Visits"
+      "pastVisits": "Past Visits",
+      "appointmentStatus": {
+        "PENDING": "Pending",
+        "CONFIRMED": "Confirmed",
+        "CANCELLED": "Cancelled",
+        "COMPLETED": "Completed",
+        "NO_SHOW": "No Show"
+      },
+      "appointmentType": {
+        "INITIAL_CONSULTATION": "Initial Consultation",
+        "FOLLOW_UP": "Follow-up",
+        "URGENT": "Urgent",
+        "LAB_RESULTS": "Lab Results"
+      }
     }
   }
 }

@@ -168,7 +168,7 @@ export function DoctorsPage() {
               <div className="relative flex-1 min-w-[180px]">
                 <Search className="absolute left-2.5 top-2.5 w-4 h-4 text-slate-400" />
                 <Input
-                  placeholder={t("doctorForm.doctors.searchPlaceholder")}
+                  placeholder={t("admin.doctors.searchPlaceholder")}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="pl-8"
@@ -193,7 +193,7 @@ export function DoctorsPage() {
                 <SelectContent>
                   <SelectItem value="All">{t("admin.stats.active")} / {t("admin.table.status")}</SelectItem>
                   <SelectItem value="Active">{t("admin.stats.active")}</SelectItem>
-                  <SelectItem value="Inactive">{t("doctorForm.doctors.inactive")}</SelectItem>
+                  <SelectItem value="Inactive">{t("admin.doctors.inactive")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -209,7 +209,7 @@ export function DoctorsPage() {
           ) : filtered.length === 0 ? (
             <div className="py-16 text-center text-slate-400">
               <Users className="w-8 h-8 mx-auto mb-3 opacity-40" />
-              {t("doctorForm.doctors.noDoctors")}
+              {t("admin.doctors.noDoctors")}
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -253,7 +253,7 @@ export function DoctorsPage() {
                       </td>
                       {/* Experience */}
                       <td className="px-6 py-4 text-slate-600">
-                        {p.experienceYears} {t("doctorForm.doctors.yrs")}
+                        {p.experienceYears} {t("admin.doctors.yrs")}
                       </td>
                       {/* Rating */}
                       <td className="px-6 py-4">
@@ -268,17 +268,17 @@ export function DoctorsPage() {
                         {p.slotConfig ? (
                           <span className="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5 font-medium">
                             <Clock className="w-3 h-3" />
-                            {t("doctorForm.doctors.minSlots", { count: p.slotConfig.slotDurationMinutes })}
+                            {t("admin.doctors.minSlots", { count: p.slotConfig.slotDurationMinutes })}
                           </span>
                         ) : (
-                          <span className="text-xs text-slate-400">{t("doctorForm.doctors.defaultSlot")}</span>
+                          <span className="text-xs text-slate-400">{t("admin.doctors.defaultSlot")}</span>
                         )}
                       </td>
                       {/* Status */}
                       <td className="px-6 py-4">
                         {p.isActive === false ? (
                           <Badge variant="outline" className="text-slate-500 border-slate-300">
-                            {t("doctorForm.doctors.inactive")}
+                            {t("admin.doctors.inactive")}
                           </Badge>
                         ) : (
                           <Badge className="bg-emerald-100 text-emerald-700 border-0 hover:bg-emerald-100">
@@ -324,7 +324,7 @@ export function DoctorsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>{t("common.delete")} {deleteTarget?.name}?</AlertDialogTitle>
             <AlertDialogDescription>
-              {t("doctorForm.doctors.deleteConfirm")}
+              {t("admin.doctors.deleteConfirm")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

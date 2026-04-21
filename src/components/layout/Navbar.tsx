@@ -13,6 +13,7 @@ import {
 } from "../ui/dialog";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
@@ -94,12 +95,24 @@ export function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => changeLanguage("en")}>
+              <DropdownMenuCheckboxItem
+                checked={i18n.language === "en"}
+                onCheckedChange={() => changeLanguage("en")}
+              >
                 English {i18n.language === "en" && "✓"}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage("es")}>
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={i18n.language === "es"}
+                onCheckedChange={() => changeLanguage("es")}
+              >
                 Español {i18n.language === "es" && "✓"}
-              </DropdownMenuItem>
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={i18n.language === "it"}
+                onCheckedChange={() => changeLanguage("it")}
+              >
+                Italian
+              </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
 

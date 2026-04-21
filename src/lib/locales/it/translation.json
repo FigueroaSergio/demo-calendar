@@ -1,0 +1,250 @@
+{
+  "common": {
+    "appName": "St. Glacier Medical",
+    "menu": "Menu",
+    "menuDescription": "Menu di navigazione mobile",
+    "back": "Indietro",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "loading": "Caricamento...",
+    "footer": "© {{year}} St. Glacier Medical. Tutti i diritti riservati.",
+    "specialties": {
+      "Cardiologist": "Cardiologo",
+      "Pediatrician": "Pediatra",
+      "Neurologist": "Neurologo",
+      "Dermatologist": "Dermatologo",
+      "Orthopedist": "Ortopedico",
+      "Psychiatrist": "Psichiatra",
+      "Oncologist": "Oncologo",
+      "General Practitioner": "Medico di Medicina Generale",
+      "Radiologist": "Radiologo",
+      "Endocrinologist": "Endocrinologo"
+    },
+    "genders": {
+      "Male": "Maschio",
+      "Female": "Femmina",
+      "Non-binary": "Non binario",
+      "Prefer not to say": "Preferisco non specificare"
+    },
+    "days": {
+      "MON": "Lunedì",
+      "TUE": "Martedì",
+      "WED": "Mercoledì",
+      "THU": "Giovedì",
+      "FRI": "Venerdì",
+      "SAT": "Sabato",
+      "SUN": "Domenica"
+    }
+  },
+  "nav": {
+    "book": "Prenota Appuntamento",
+    "portal": "Il Mio Portale",
+    "admin": "Admin",
+    "doctors": "Medici"
+  },
+  "admin": {
+    "dashboard": "Pannello di Amministrazione",
+    "doctorManagement": "Gestione Medici",
+    "manageStaff": "Gestisci il personale medico, gli orari e le configurazioni dei turni.",
+    "addDoctor": "Aggiungi Medico",
+    "stats": {
+      "totalDoctors": "Totale Medici",
+      "active": "Attivi",
+      "slotConfigured": "Turni Configurati",
+      "avgRating": "Valutazione Media"
+    },
+    "table": {
+      "doctor": "Medico",
+      "specialty": "Specializzazione",
+      "experience": "Esperienza",
+      "rating": "Valutazione",
+      "status": "Stato",
+      "actions": "Azioni"
+    },
+    "dashboard": {
+      "title": "Riepilogo Analisi",
+      "subtitle": "Dati sulle prestazioni istituzionali per St. Glacier Medical.",
+      "allProviders": "Tutti i Fornitori",
+      "addProvider": "Aggiungi Fornitore",
+      "totalAppts": "Appuntamenti Totali",
+      "completionRate": "Tasso di Completamento",
+      "noShowRate": "Tasso di Assenza",
+      "upcomingToday": "In arrivo oggi",
+      "realTimeSchedule": "Orario in Tempo Reale",
+      "noAppts": "Non ci sono appuntamenti attivi in programma.",
+      "quickManagement": "Gestione Rapida",
+      "configureStaff": "Configura orari del personale",
+      "manageAllDoctors": "Gestisci tutti i medici",
+      "growth": "{{value}}% dal mese scorso",
+      "densityWarning": "Gli orari sono vicini alla densità massima"
+    },
+    "capacity": {
+      "title": "Gestione della Capacità",
+      "subtitle": "Distribuzione del personale clinico in tempo reale",
+      "available": "DISPONIBILE",
+      "peak": "DOMANDA MASSIMA",
+      "moderate": "MODERATA",
+      "efficient": "EFFICIENTE",
+      "appointments": "{{count}} Appuntamenti",
+      "utilization": "{{value}}% di Utilizzo"
+    },
+    "heatmap": {
+      "title": "Densità Appuntamenti",
+      "subtitle": "Distribuzione settimanale del volume nelle ore di visita",
+      "low": "BASSA",
+      "peak": "MASSIMA",
+      "occupancy": "{{value}}% di Occupazione"
+    },
+    "availability": {
+      "title": "Configura Disponibilità",
+      "subtitle": "Impostazione blocchi attivi per {{name}}. Questi turni saranno disponibili per la prenotazione dei pazienti.",
+      "workingSlots": "Turni di Lavoro Standard",
+      "saveButton": "Salva Orario"
+    },
+    "provider": {
+      "addTitle": "Aggiungi Nuovo Fornitore",
+      "addSubtitle": "Inserisci i dettagli del nuovo medico per aggiungerlo all'elenco del personale.",
+      "name": "Nome",
+      "specialty": "Specializzazione",
+      "experience": "Esp (Anni)",
+      "gender": "Genere",
+      "addButton": "Aggiungi Fornitore",
+      "male": "Maschio",
+      "female": "Femmina",
+      "other": "Non binario"
+    },
+    "doctorForm": {
+      "titleEdit": "Modifica Medico",
+      "titleAdd": "Aggiungi Nuovo Medico",
+      "subtitleEdit": "Modifica di {{name}}",
+      "subtitleAdd": "Completa i dettagli del medico e la configurazione dei turni.",
+      "stepProfile": "Profilo",
+      "stepSlots": "Turni",
+      "stepAdvanced": "Orario",
+      "sections": {
+        "basic": "Informazioni di Base",
+        "basicSubtitle": "Identità e credenziali del medico",
+        "slots": "Configurazione Turni",
+        "slotsSubtitle": "Configura come vengono generati gli appuntamenti",
+        "schedule": "Orario Settimanale",
+        "scheduleSubtitle": "Configura le ore di lavoro e i periodi di pausa per ogni giorno"
+      },
+      "labels": {
+        "fullName": "Nome Completo",
+        "specialty": "Specializzazione",
+        "location": "Sede / Clinica",
+        "experience": "Anni di Esperienza",
+        "gender": "Genere",
+        "avatar": "URL Avatar",
+        "languages": "Lingue",
+        "activeStatus": "Stato Attivo",
+        "activeStatusSubtitle": "I medici inattivi non appariranno nella ricerca dei pazienti",
+        "slotDuration": "Durata del Turno",
+        "buffer": "Pausa tra i Turni",
+        "maxPatients": "Max Pazienti / Turno",
+        "advanceBooking": "Prenotazione Anticipata (giorni)",
+        "minNotice": "Preavviso Minimo (ore)",
+        "autoConfirm": "Conferma Automatica Prenotazioni",
+        "minutes": "{{count}} minuti",
+        "noBuffer": "Senza pausa",
+        "enabled": "Abilitato",
+        "disabled": "Disabilitato",
+        "dayOff": "Giorno libero",
+        "breakPeriods": "Periodi di Pausa",
+        "to": "a"
+      },
+      "placeholders": {
+        "fullName": "Dr. Mario Rossi",
+        "specialty": "Seleziona specializzazione",
+        "addLanguage": "Aggiungi lingua..."
+      },
+      "buttons": {
+        "nextSlots": "Avanti: Turni →",
+        "nextSchedule": "Avanti: Orario →",
+        "back": "← Indietro",
+        "addBreak": "Aggiungi Pausa"
+      },
+      "preview": {
+        "title": "Anteprima Turni",
+        "text": "Con un turno di {{duration}} min e una pausa di {{buffer}} min, ogni blocco di appuntamento richiede {{total}} minuti. Una giornata lavorativa di 8 ore genera circa {{slots}} turni."
+      },
+      "messages": {
+        "loading": "Caricamento medico...",
+        "errorName": "Il nome del medico è obbligatorio.",
+        "errorSpecialty": "La specializzazione è obbligatoria.",
+        "successSave": "Medico salvato con successo!",
+        "noBreaks": "Nessuna pausa configurata.",
+        "breaksCount": "{{count}} pausa",
+        "breaksCount_plural": "{{count}} pause"
+      }
+    },
+    "doctors": {
+      "searchPlaceholder": "Cerca...",
+      "noDoctors": "Nessun medico trovato.",
+      "deleteConfirm": "Questo eliminerà permanentemente il medico e tutte le sue impostazioni. Questa azione non può essere annullata.",
+      "inactive": "Inattivo",
+      "yrs": "anni",
+      "defaultSlot": "Predefinito",
+      "minSlots": "turni da {{count}}min"
+    }
+  },
+  "patient": {
+    "search": {
+      "title": "Cerca Nome del Fornitore",
+      "placeholder": "Dr. Smith...",
+      "specialty": "Specializzazione",
+      "allSpecialties": "Tutte le Specializzazioni",
+      "bookButton": "Prenota Appuntamento",
+      "noResults": "Nessun fornitore trovato corrispondente ai criteri."
+    },
+    "booking": {
+      "backToSearch": "Torna alla Ricerca",
+      "selectDate": "Seleziona Data",
+      "selectTime": "Seleziona Ora",
+      "confirmBooking": "Conferma Prenotazione",
+      "details": "Dettagli Appuntamento",
+      "service": "Servizio",
+      "initialConsult": "Consulto Iniziale",
+      "confirmButton": "Conferma Appuntamento",
+      "securing": "Prenotazione in corso...",
+      "confirmed": "Prenotazione Confermata!",
+      "successMessage": "Il tuo appuntamento con {{name}} per il giorno {{date}} alle {{time}} è stato programmato con successo.",
+      "bookAnother": "Prenotane un altro",
+      "viewPortal": "Vai al Mio Portale",
+      "listView": "Lista",
+      "calendarView": "Calendario",
+      "slotsAvailable": "{{count}} turni disponibili",
+      "noSlots": "Nessuna disponibilità trovata per il periodo richiesto."
+    },
+    "portal": {
+      "title": "Il Tuo Portale del Paziente",
+      "subtitle": "Gestisci i tuoi appuntamenti, le cartelle cliniche e il profilo.",
+      "upcoming": "Prossimi Appuntamenti",
+      "noUpcoming": "Non hai appuntamenti imminenti.",
+      "bookNow": "Prenota un Appuntamento",
+      "telehealth": "Telemedicina disponibile",
+      "cancelConfirm": "Sei sicuro di voler annullare?",
+      "cancelButton": "Annulla",
+      "reschedule": "Riprogramma",
+      "profileInfo": "Informazioni Profilo",
+      "nameLabel": "Nome",
+      "emailLabel": "E-mail",
+      "editProfile": "Modifica Profilo",
+      "pastVisits": "Visite Passate",
+      "appointmentStatus": {
+        "PENDING": "In sospeso",
+        "CONFIRMED": "Confermato",
+        "CANCELLED": "Annullato",
+        "COMPLETED": "Completato",
+        "NO_SHOW": "Non presentato"
+      },
+      "appointmentType": {
+        "INITIAL_CONSULTATION": "Consulto Iniziale",
+        "FOLLOW_UP": "Visita di Controllo",
+        "URGENT": "Urgente",
+        "LAB_RESULTS": "Risultati di Laboratorio"
+      }
+    }
+  }
+}
