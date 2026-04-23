@@ -53,7 +53,9 @@ export function ProviderSearch() {
     <div className="w-full max-w-5xl space-y-6">
       <div className="flex flex-col md:flex-row gap-4 items-end">
         <div className="flex-1 w-full space-y-2">
-          <label className="text-sm font-medium">{t("patient.search.title")}</label>
+          <label className="text-sm font-medium">
+            {t("patient.search.title")}
+          </label>
           <div className="relative">
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground/60" />
             <Input
@@ -65,16 +67,26 @@ export function ProviderSearch() {
           </div>
         </div>
         <div className="w-full md:w-64 space-y-2">
-          <label className="text-sm font-medium">{t("patient.search.specialty")}</label>
+          <label className="text-sm font-medium">
+            {t("patient.search.specialty")}
+          </label>
           <Select value={specialty} onValueChange={setSpecialty}>
             <SelectTrigger>
               <SelectValue placeholder={t("patient.search.specialty")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="ALL">{t("patient.search.allSpecialties")}</SelectItem>
-              <SelectItem value="Cardiologist">{t("admin.table.specialty")} - Cardiologist</SelectItem>
-              <SelectItem value="Pediatrician">{t("admin.table.specialty")} - Pediatrician</SelectItem>
-              <SelectItem value="Neurologist">{t("admin.table.specialty")} - Neurologist</SelectItem>
+              <SelectItem value="ALL">
+                {t("patient.search.allSpecialties")}
+              </SelectItem>
+              <SelectItem value="Cardiologist">
+                {t("admin.table.specialty")} - Cardiologist
+              </SelectItem>
+              <SelectItem value="Pediatrician">
+                {t("admin.table.specialty")} - Pediatrician
+              </SelectItem>
+              <SelectItem value="Neurologist">
+                {t("admin.table.specialty")} - Neurologist
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -111,7 +123,7 @@ export function ProviderSearch() {
                     {provider.name}
                   </CardTitle>
                   <CardDescription className="text-primary font-medium">
-                    {provider.specialty}
+                    {t(`common.specialties.${provider.specialty}`)}
                   </CardDescription>
                 </div>
               </CardHeader>
@@ -123,12 +135,12 @@ export function ProviderSearch() {
                     </Badge>
                   ))}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                {/* <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                   <span>
                     {provider.rating} ({provider.reviewCount} reviews)
                   </span>
-                </div>
+                </div> */}
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4 text-muted-foreground" />
                   <span>

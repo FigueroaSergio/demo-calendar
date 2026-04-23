@@ -107,7 +107,7 @@ export function PatientPortal() {
                         {t("admin.table.doctor")} ID: {appt.providerId}
                       </h4>
                       <p className="text-sm text-slate-500">
-                        {t(`patient.appointmentType.${appt.type}`)}
+                        {t(`patient.portal.appointmentType.${appt.type}`)}
                       </p>
                       <div className="flex items-center gap-2 mt-2 text-sm text-slate-600">
                         <Video className="w-4 h-4" />{" "}
@@ -189,7 +189,7 @@ export function PatientPortal() {
                       }
                       className="text-xs"
                     >
-                      {t(`patient.aportal.appointmentStatus.${a.status}`)}
+                      {t(`patient.portal.appointmentStatus.${a.status}`)}
                     </Badge>
                   </div>
                 ))}

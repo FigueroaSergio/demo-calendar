@@ -1,11 +1,13 @@
 import type { IProviderRepository } from "../../domain/repositories/IProviderRepository.ts";
-import type {
-  Provider,
-  ProviderAvailability,
-  CreateProviderDTO,
-  UpdateProviderDTO,
+import {
+  type Provider,
+  type ProviderAvailability,
+  type CreateProviderDTO,
+  type UpdateProviderDTO,
+  getSlotsByDay,
 } from "../../domain/models/Provider.ts";
 import { delay } from "../utils.ts";
+import { MockAppointmentRepository } from "./MockAppointmentRepository.ts";
 
 const MOCK_PROVIDERS: Provider[] = [
   {
@@ -47,6 +49,7 @@ const MOCK_PROVIDERS: Provider[] = [
 ];
 
 let MOCK_AVAILABILITIES: Record<string, ProviderAvailability[]> = {};
+const appointmentRepository = new MockAppointmentRepository();
 
 export class MockProviderRepository implements IProviderRepository {
   async getAllProviders(): Promise<Provider[]> {
@@ -79,34 +82,70 @@ export class MockProviderRepository implements IProviderRepository {
     dateEnd: string,
   ): Promise<ProviderAvailability[]> {
     await delay(400);
-    
+
     // If we have custom availability set by admin, use it
     if (MOCK_AVAILABILITIES[providerId]) {
-      return MOCK_AVAILABILITIES[providerId].filter(a => a.date >= dateStart && a.date <= dateEnd);
+      return MOCK_AVAILABILITIES[providerId].filter(
+        (a) => a.date >= dateStart && a.date <= dateEnd,
+      );
     }
+    const provider = await this.getProviderById(providerId);
 
-    // Default mock: generate availability for next 7 days if requested
+    // Get all appointments for this provider to determine booked slots
+    const providerAppointments =
+      await appointmentRepository.getAppointmentsByProvider(providerId);
+
+    // Create a map of booked slots by date
+    const bookedSlots = new Map<string, Set<string>>();
+    providerAppointments.forEach((appt) => {
+      if (!bookedSlots.has(appt.date)) {
+        bookedSlots.set(appt.date, new Set());
+      }
+      bookedSlots.get(appt.date)!.add(appt.time);
+    });
+
+    // All available slots in a day
+    const allSlots = [
+      "09:00",
+      "09:30",
+      "10:00",
+      "11:30",
+      "13:00",
+      "14:30",
+      "15:00",
+      "16:30",
+    ];
+
+    // Generate availability for the requested date range
     const start = new Date(dateStart);
     const end = new Date(dateEnd);
     const results: ProviderAvailability[] = [];
-    
-    const slots = [
-      "09:00", "09:30", "10:00", "11:30", "13:00", "14:30", "15:00", "16:30",
-    ];
 
     for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-      if (d.getDay() === 0 || d.getDay() === 6) continue; // Skip weekends in mock
-      
-      results.push({
-        providerId,
-        date: d.toISOString().split('T')[0],
-        slots: slots.filter(() => Math.random() > 0.3),
-      });
+      if (!provider?.slotConfig) {
+        if (d.getDay() === 0 || d.getDay() === 6) continue; // Skip weekends
+
+        const dateStr = d.toISOString().split("T")[0];
+        const bookedForDate = bookedSlots.get(dateStr) || new Set<string>();
+
+        // Filter out booked slots to show only available ones
+        const availableSlots = allSlots.filter(
+          (slot) => !bookedForDate.has(slot),
+        );
+
+        results.push({
+          providerId,
+          date: dateStr,
+          slots: availableSlots,
+        });
+        continue;
+      }
+      const config = provider.slotConfig;
+      results.push(getSlotsByDay(d, config, providerId));
     }
 
     return results;
   }
-
 
   async createProvider(dto: CreateProviderDTO): Promise<Provider> {
     await delay(800);
@@ -134,9 +173,11 @@ export class MockProviderRepository implements IProviderRepository {
     if (idx !== -1) MOCK_PROVIDERS.splice(idx, 1);
   }
 
-  async updateAvailability(providerId: string, availability: ProviderAvailability[]): Promise<void> {
+  async updateAvailability(
+    providerId: string,
+    availability: ProviderAvailability[],
+  ): Promise<void> {
     await delay(600);
     MOCK_AVAILABILITIES[providerId] = availability;
   }
 }
-

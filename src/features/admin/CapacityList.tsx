@@ -1,33 +1,62 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
-import { Progress } from '../../components/ui/progress';
-import { Badge } from '../../components/ui/badge';
-import type { Provider } from '../../domain/models/Provider';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "../../components/ui/card";
+import { Progress } from "../../components/ui/progress";
+import { Badge } from "../../components/ui/badge";
+import {
+  DEFAULT_SLOT_CONFIG,
+  getSlotsByDay,
+  type Provider,
+} from "../../domain/models/Provider";
+import { Appointment } from "@/domain/models/Appointment";
 
 interface CapacityListProps {
   providers: Provider[];
-  appointments: any[];
+  appointments: Appointment[];
 }
 
 export function CapacityList({ providers, appointments }: CapacityListProps) {
   const { t } = useTranslation();
-  
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('admin.capacity.title')}</CardTitle>
-        <CardDescription>{t('admin.capacity.subtitle')}</CardDescription>
+        <CardTitle>{t("admin.capacity.title")}</CardTitle>
+        <CardDescription>{t("admin.capacity.subtitle")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
         {providers.map((p) => {
-          const apptCount = appointments.filter(a => a.providerId === p.id).length;
+          const apptCount = appointments.filter(
+            (a) => a.providerId === p.id,
+          ).length;
+          let config = p.slotConfig;
+          if (!config) {
+            config = DEFAULT_SLOT_CONFIG;
+          }
+          const now = new Date();
+          const startOfToday = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1,
+          );
+
+          const configSlots = getSlotsByDay(startOfToday, config, p.id);
+
           // Mocking utilization based on appt count (max 25 for this demo)
-          const utilization = Math.min(Math.round((apptCount / 24) * 100) + Math.floor(Math.random() * 20), 100);
-          
+          const utilization = Math.min(
+            Math.round((apptCount / configSlots.slots.length) * 100),
+            100,
+          );
+
           let statusKey = "available";
           let badgeVariant: any = "secondary";
-          
+
           if (utilization > 85) {
             statusKey = "peak";
             badgeVariant = "destructive";
@@ -49,8 +78,12 @@ export function CapacityList({ providers, appointments }: CapacityListProps) {
               </div>
               <Progress value={utilization} className="h-2" />
               <div className="flex justify-between text-xs text-muted-foreground font-medium">
-                <span>{t('admin.capacity.appointments', { count: apptCount })}</span>
-                <span>{t('admin.capacity.utilization', { value: utilization })}</span>
+                <span>
+                  {t("admin.capacity.appointments", { count: apptCount })}
+                </span>
+                <span>
+                  {t("admin.capacity.utilization", { value: utilization })}
+                </span>
               </div>
             </div>
           );

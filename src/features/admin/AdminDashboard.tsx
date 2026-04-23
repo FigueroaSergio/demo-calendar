@@ -8,14 +8,8 @@ import {
   CardTitle,
   CardDescription,
 } from "../../components/ui/card";
-import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../../components/ui/tabs";
+
 import {
   Select,
   SelectContent,
@@ -103,7 +97,9 @@ export function AdminDashboard() {
               <SelectValue placeholder={t("admin.dashboard.allProviders")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="ALL">{t("admin.dashboard.allProviders")}</SelectItem>
+              <SelectItem value="ALL">
+                {t("admin.dashboard.allProviders")}
+              </SelectItem>
               {providers.map((p) => (
                 <SelectItem key={p.id} value={p.id}>
                   {p.name}
@@ -160,7 +156,7 @@ export function AdminDashboard() {
               {total > 0 ? Math.round((noShow / total) * 100) : 0}%
             </div>
             <p className="text-xs text-destructive font-medium mt-1">
-              +0.8% from last month
+              {t("admin.dashboard.growth", { value: 0.8 })}
             </p>
           </CardContent>
         </Card>
@@ -182,7 +178,6 @@ export function AdminDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <DensityHeatmap />
           <Card>
             <CardHeader>
               <CardTitle className="flex justify-between items-center">
@@ -205,7 +200,7 @@ export function AdminDashboard() {
                         </div>
                         <div>
                           <p className="font-medium text-sm">
-                            {t("portal.nameLabel")} {a.patientId}
+                            {t("patient.portal.nameLabel")} {a.patientId}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {p?.name || "Unknown"}
@@ -231,13 +226,16 @@ export function AdminDashboard() {
               </div>
             </CardContent>
           </Card>
+          <DensityHeatmap />
         </div>
         <div className="space-y-6">
           <CapacityList providers={providers} appointments={appointments} />
           <Card>
             <CardHeader>
               <CardTitle>{t("admin.dashboard.quickManagement")}</CardTitle>
-              <CardDescription>{t("admin.dashboard.configureStaff")}</CardDescription>
+              <CardDescription>
+                {t("admin.dashboard.configureStaff")}
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {providers.map((p) => (
@@ -256,8 +254,8 @@ export function AdminDashboard() {
                 </div>
               ))}
               <div className="pt-2 border-t">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full gap-2 text-slate-600 border-slate-200"
                   onClick={() => navigate("/admin/doctors")}
                 >
