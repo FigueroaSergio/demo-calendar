@@ -96,7 +96,8 @@ export function BookingWizard() {
         onClick={() => navigate(-1)}
         className="mb-6 -ml-4"
       >
-        <ArrowLeft className="w-4 h-4 mr-2" /> {t("patient.booking.backToSearch")}
+        <ArrowLeft className="w-4 h-4 mr-2" />{" "}
+        {t("patient.booking.backToSearch")}
       </Button>
 
       <div className="mb-8 flex items-center justify-between">
@@ -114,22 +115,24 @@ export function BookingWizard() {
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>{t("patient.booking.selectDate")}</CardTitle>
               <div className="flex bg-muted p-1 rounded-md">
-                  <Button
-                    variant={viewMode === "LIST" ? "white" : "ghost"}
-                    size="sm"
-                    className="h-8 px-2"
-                    onClick={() => setViewMode("LIST")}
-                  >
-                    <ListIcon className="w-4 h-4 mr-1" /> {t("patient.booking.listView")}
-                  </Button>
-                  <Button
-                    variant={viewMode === "CALENDAR" ? "white" : "ghost"}
-                    size="sm"
-                    className="h-8 px-2"
-                    onClick={() => setViewMode("CALENDAR")}
-                  >
-                    <CalendarIcon className="w-4 h-4 mr-1" /> {t("patient.booking.calendarView")}
-                  </Button>
+                <Button
+                  variant={viewMode === "LIST" ? "default" : "ghost"}
+                  size="sm"
+                  className="h-8 px-2"
+                  onClick={() => setViewMode("LIST")}
+                >
+                  <ListIcon className="w-4 h-4 mr-1" />{" "}
+                  {t("patient.booking.listView")}
+                </Button>
+                <Button
+                  variant={viewMode === "CALENDAR" ? "default" : "ghost"}
+                  size="sm"
+                  className="h-8 px-2"
+                  onClick={() => setViewMode("CALENDAR")}
+                >
+                  <CalendarIcon className="w-4 h-4 mr-1" />{" "}
+                  {t("patient.booking.calendarView")}
+                </Button>
               </div>
             </CardHeader>
             <CardContent>
@@ -162,7 +165,9 @@ export function BookingWizard() {
                         </span>
                       </div>
                       <span className="text-sm text-muted-foreground">
-                        {t("patient.booking.slotsAvailable", { count: av.slots.length })}
+                        {t("patient.booking.slotsAvailable", {
+                          count: av.slots.length,
+                        })}
                       </span>
                     </div>
                   ))}
@@ -304,10 +309,10 @@ export function BookingWizard() {
                 {t("patient.booking.confirmed")}
               </h2>
               <p className="text-slate-500 max-w-md">
-                {t("patient.booking.successMessage", { 
-                  name: provider.name, 
-                  date: selectedDate, 
-                  time: selectedTime 
+                {t("patient.booking.successMessage", {
+                  name: provider.name,
+                  date: selectedDate,
+                  time: selectedTime,
                 })}
               </p>
             </div>
