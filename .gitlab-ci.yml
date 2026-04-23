@@ -10,7 +10,7 @@ cache:
     - .npm/
 
 before_script:
-  - npm ci --cache .npm --prefer-offline
+  - npm install --cache .npm --prefer-offline
 
 pages:
   stage: deploy
