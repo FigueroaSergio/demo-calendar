@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/sergio.figueroa/demo-calendar/",
+  base: "/demo-calendar/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
