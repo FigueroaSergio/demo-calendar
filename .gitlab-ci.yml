@@ -21,7 +21,7 @@ pages:
     - mv dist public
     # Fix for React Router: redirect all 404s to index.html
     # so the app can handle the route client-side
-    - cp public/index.html public/404.html
+    - cp public/index.html
   artifacts:
     paths:
       - public
