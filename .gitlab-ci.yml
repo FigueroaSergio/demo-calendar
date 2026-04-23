@@ -18,6 +18,7 @@ pages:
     - npm run build
     # GitLab Pages expects files to be in a folder named 'public'
     # Vite defaults its output to 'dist'
+    - ls -F
     - mv dist public
     # Fix for React Router: redirect all 404s to index.html
     # so the app can handle the route client-side
