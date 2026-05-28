@@ -33,4 +33,10 @@ export const NAVIGATION_ITEMS: NavItem[] = [
     icon: Stethoscope,
     i18nKey: "nav.doctors",
   },
+  {
+    label: "Scheduling",
+    href: "/admin/scheduling",
+    icon: Calendar,
+    i18nKey: "nav.scheduling",
+  },
 ];

@@ -6,6 +6,7 @@ import { BookingWizard } from "./features/patient/BookingWizard";
 import { AdminDashboard } from "./features/admin/AdminDashboard";
 import { DoctorsPage } from "./features/admin/doctors/DoctorsPage";
 import { DoctorFormPage } from "./features/admin/doctors/DoctorFormPage";
+import { DoctorSchedulingPage } from "./features/admin/DoctorSchedulingPage";
 
 function AppRouter() {
   return (
@@ -19,6 +20,7 @@ function AppRouter() {
           <Route path="admin/doctors" element={<DoctorsPage />} />
           <Route path="admin/doctors/new" element={<DoctorFormPage />} />
           <Route path="admin/doctors/:id/edit" element={<DoctorFormPage />} />
+          <Route path="admin/scheduling" element={<DoctorSchedulingPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

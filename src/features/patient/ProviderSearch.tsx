@@ -26,7 +26,7 @@ import {
 } from "../../components/ui/avatar";
 import { providerRepository } from "../../application/services";
 import type { Provider } from "../../domain/models/Provider";
-import { Search, Star, MapPin } from "lucide-react";
+import { Search, MapPin } from "lucide-react";
 
 export function ProviderSearch() {
   const { t } = useTranslation();

@@ -46,6 +46,18 @@ const MOCK_PROVIDERS: Provider[] = [
     reviewCount: 210,
     avatarUrl: "https://i.pravatar.cc/150?img=9",
   },
+  {
+    id: "p4",
+    name: "Dr. Sergio Rodriguez",
+    specialty: "Neurologist",
+    location: "St. Glacier Medical",
+    languages: ["English", "French"],
+    experienceYears: 12,
+    gender: "Male",
+    rating: 4.6,
+    reviewCount: 210,
+    avatarUrl: "https://i.pravatar.cc/150?img=1",
+  },
 ];
 
 let MOCK_AVAILABILITIES: Record<string, ProviderAvailability[]> = {};

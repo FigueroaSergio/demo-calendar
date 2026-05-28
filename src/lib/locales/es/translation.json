@@ -41,7 +41,72 @@
     "book": "Reservar Cita",
     "portal": "Mi Portal",
     "admin": "Admin",
-    "doctors": "Doctores"
+    "doctors": "Doctores",
+    "scheduling": "Planificación"
+  },
+  "scheduling": {
+    "title": "Programador de Turnos Médicos",
+    "subtitle": "Resolución óptima de cuadrantes de turnos para el personal médico mediante programación de restricciones.",
+    "doctorsLabel": "Personal Médico (Doctores)",
+    "doctorsDesc": "Número total de doctores disponibles. Bloqueado al número de proveedores registrados.",
+    "daysLabel": "Duración de la Planificación (Días)",
+    "daysDesc": "Duración del período de planificación en días (máx. 30 días).",
+    "reqDayLabel": "Doctores Requeridos por Día",
+    "reqDayDesc": "Número mínimo de doctores asignados al turno de Día (d) cada día.",
+    "reqEveningLabel": "Doctores Requeridos por Tarde",
+    "reqEveningDesc": "Número mínimo de doctores asignados al turno de Tarde (e) cada día.",
+    "reqNightLabel": "Doctores Requeridos por Noche",
+    "reqNightDesc": "Número mínimo de doctores asignados al turno de Noche (n) cada día.",
+    "minNightLabel": "Turnos Nocturnos Mínimos por Doctor",
+    "minNightDesc": "Número mínimo de turnos de noche que deben asignarse a cada doctor durante el período.",
+    "staffParams": "Parámetros del Personal",
+    "staffParamsDesc": "Defina el número de doctores y las variables de restricción",
+    "requiredPerDay": "Personal Requerido por Día",
+    "shifts": {
+      "day": "Día",
+      "evening": "Tarde",
+      "night": "Noche",
+      "off": "Libre"
+    },
+    "targetRange": "Rango Objetivo",
+    "daysSchedule": "{{count}} Días de Programación",
+    "dayLabel": "Día",
+    "doc": "doc",
+    "shiftsLabel": "turnos",
+    "solverError": "Error del Solucionador",
+    "troubleshooting": "Consejos de Solución",
+    "verifyServer": "Verifique que el servidor MiniZinc se esté ejecutando en {{url}} y que su demonio docker esté activo.",
+    "models": {
+      "default": "Playground (Predeterminado)",
+      "variant": "Playground (Variante Nocturna)"
+    },
+    "suggestionsTitle": "Sugerencias:",
+    "suggestions": {
+      "increaseDoctors": "Aumente el número total de doctores.",
+      "reduceRequirements": "Reduzca los requisitos de turnos diarios.",
+      "lowerMinNight": "Reduzca el requisito mínimo de turnos nocturnos por doctor."
+    },
+    "generateButton": "Generar Calendario",
+    "solving": "Resolviendo Restricciones...",
+    "solvingDesc": "Ejecutando optimizaciones para {{doctors}} doctores y {{days}} días. Buscando asignaciones viables...",
+    "noSchedule": "Sin Calendario Generado",
+    "noScheduleDesc": "Configure los requisitos de su personal en el panel izquierdo y haga clic en 'Generar Calendario' para computar las asignaciones.",
+    "stats": {
+      "status": "Estado de Viabilidad",
+      "solveTime": "Tiempo de Cómputo del Solucionador",
+      "model": "Modelo de Restricciones",
+      "feasible": "Factible",
+      "unfeasible": "No factible"
+    },
+    "errors": {
+      "impossible": "¡Los requisitos exceden la capacidad! La suma de doctores requeridos por día ({{required}}) es mayor que el total de doctores disponibles ({{doctors}}). Por favor, reduzca los requisitos.",
+      "unfeasibleTitle": "No se Encontró un Calendario Factible",
+      "unfeasibleDesc": "El motor demostró que ninguna combinación de turnos cumple con todas las reglas (ej. máx. 3 turnos consecutivos, máx. 2 noches consecutivas y sus límites de turnos nocturnos mínimos). Pruebe reduciendo requisitos.",
+      "serverError": "No se pudo comunicar con el solucionador. Asegúrese de que el servidor esté activo."
+    },
+    "gridTitle": "Cuadrante de Turnos Generado",
+    "gridSubtitle": "Horario óptimo que cumple con todas las reglas de carga de trabajo y descanso.",
+    "medico": "Médico"
   },
   "admin": {
     "dashboard": "Panel de Administración",

@@ -41,7 +41,72 @@
     "book": "Book Appointment",
     "portal": "My Portal",
     "admin": "Admin",
-    "doctors": "Doctors"
+    "doctors": "Doctors",
+    "scheduling": "Scheduling"
+  },
+  "scheduling": {
+    "title": "Doctor Shift Scheduler",
+    "subtitle": "Optimal shift rostering solver for medical staff using constraint programming.",
+    "doctorsLabel": "Medical Staff (Doctors)",
+    "doctorsDesc": "Total number of doctors available in the clinic. Automatically locked to the registered providers.",
+    "daysLabel": "Schedule Duration (Days)",
+    "daysDesc": "Length of the scheduling period in days (max 30 days).",
+    "reqDayLabel": "Required Doctors per Day",
+    "reqDayDesc": "Minimum number of doctors assigned to the Day shift (d) each day.",
+    "reqEveningLabel": "Required Doctors per Evening",
+    "reqEveningDesc": "Minimum number of doctors assigned to the Evening shift (e) each day.",
+    "reqNightLabel": "Required Doctors per Night",
+    "reqNightDesc": "Minimum number of doctors assigned to the Night shift (n) each day.",
+    "minNightLabel": "Min Night Shifts per Doctor",
+    "minNightDesc": "Minimum number of night shifts that must be assigned to each doctor during the period.",
+    "staffParams": "Staff Parameters",
+    "staffParamsDesc": "Define your doctors count and constraint variables",
+    "requiredPerDay": "Required Staff Per Day",
+    "shifts": {
+      "day": "Day",
+      "evening": "Evening",
+      "night": "Night",
+      "off": "Off"
+    },
+    "targetRange": "Target Range",
+    "daysSchedule": "{{count}} Days Schedule",
+    "dayLabel": "Day",
+    "doc": "doc",
+    "shiftsLabel": "shifts",
+    "solverError": "Solver Error Encountered",
+    "troubleshooting": "Troubleshooting Tips",
+    "verifyServer": "Verify that the MiniZinc server is running on {{url}} and that your docker daemon is active.",
+    "models": {
+      "default": "Playground (Default)",
+      "variant": "Playground (Evening Variant)"
+    },
+    "suggestionsTitle": "Suggestions:",
+    "suggestions": {
+      "increaseDoctors": "Increase the total number of doctors.",
+      "reduceRequirements": "Reduce the daily shift requirements.",
+      "lowerMinNight": "Lower the minimum night shifts requirement per doctor."
+    },
+    "generateButton": "Generate Schedule",
+    "solving": "Solving Constraints...",
+    "solvingDesc": "Running optimizations on {{doctors}} doctors and {{days}} days. Finding feasible allocations...",
+    "noSchedule": "No Schedule Generated",
+    "noScheduleDesc": "Configure your staff requirements on the left panel and click 'Generate Schedule' to compute assignments.",
+    "stats": {
+      "status": "Feasibility Status",
+      "solveTime": "Solver Computation Time",
+      "model": "Constraint Model",
+      "feasible": "Feasible",
+      "unfeasible": "Unfeasible"
+    },
+    "errors": {
+      "impossible": "Requirements exceed capacity! The sum of daily shift requirements ({{required}}) is greater than the total doctors available ({{doctors}}). Please lower requirements.",
+      "unfeasibleTitle": "No Feasible Schedule Found",
+      "unfeasibleDesc": "The solver proved that no combination of shifts satisfies all rules (e.g. max 3 consecutive shifts, max 2 consecutive nights, and your minimum night shift constraints). Try reducing requirements.",
+      "serverError": "Could not communicate with solver. Make sure the backend server is running."
+    },
+    "gridTitle": "Generated Shift Roster",
+    "gridSubtitle": "Optimal shift schedule satisfying all workload and rest rules.",
+    "medico": "Doctor"
   },
   "admin": {
     "dashboard": "Admin Dashboard",

@@ -71,3 +71,10 @@ export default defineConfig([
   },
 ])
 ```
+
+## Backend Service (MiniZinc Solver)
+
+The backend service is located in the [server/](file:///c:/Users/sergio/Documents/testing/book-appoinment/server) folder and is built using FastAPI and MiniZinc to solve nurse scheduling constraints.
+
+For instructions on building and starting the server (using Docker or running locally), see the [server README](file:///c:/Users/sergio/Documents/testing/book-appoinment/server/README.md).
+

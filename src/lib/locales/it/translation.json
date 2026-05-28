@@ -41,7 +41,74 @@
     "book": "Prenota Appuntamento",
     "portal": "Il Mio Portale",
     "admin": "Admin",
-    "doctors": "Medici"
+    "doctors": "Medici",
+    "scheduling": "Pianificazione"
+  },
+  "scheduling": {
+    "title": "Pianificazione Turni Medici",
+    "subtitle": "Risolutore di turni ottimale per il personale medico tramite programmazione a vincoli.",
+    "doctorsLabel": "Personale Medico (Medici)",
+    "doctorsDesc": "Numero totale di medici disponibili nella clinica. Bloccato automaticamente ai fornitori registrati.",
+    "daysLabel": "Durata Pianificazione (Giorni)",
+    "daysDesc": "Durata del periodo di pianificazione in giorni (max 30 giorni).",
+    "reqDayLabel": "Medici Richiesti per il Giorno",
+    "reqDayDesc": "Numero minimo di medici assegnati al turno diurno (d) ogni giorno.",
+    "reqEveningLabel": "Medici Richiesti per il Pomeriggio",
+    "reqEveningDesc": "Numero minimo di medici assegnati al turno pomeridiano (e) ogni giorno.",
+    "reqNightLabel": "Medici Richiesti per la Notte",
+    "reqNightDesc": "Numero minimo di medici assegnati al turno notturno (n) ogni giorno.",
+    "minNightLabel": "Turni Notturni Minimi per Medico",
+    "minNightDesc": "Numero minimo di turni notturni che devono essere assegnati a ciascun medico durante il periodo.",
+    "staffParams": "Parametri del Personale",
+    "staffParamsDesc": "Definisci il numero di medici e le variabili dei vincoli",
+    "requiredPerDay": "Personale Richiesto al Giorno",
+    "shifts": {
+      "day": "Giorno",
+      "evening": "Pomeriggio",
+      "night": "Notte",
+      "off": "Libero"
+    },
+    "targetRange": "Intervallo Target",
+    "daysSchedule": "{{count}} Giorni di Pianificazione",
+    "dayLabel": "Giorno",
+    "doc": "doc",
+    "shiftsLabel": "turni",
+    "generateButton": "Genera Pianificazione",
+    "solving": "Risoluzione Vincoli...",
+    "solvingDesc": "Esecuzione ottimizzazioni per {{doctors}} medici e {{days}} giorni. Ricerca allocazioni valide...",
+    "noSchedule": "Nessuna Pianificazione Generata",
+    "noScheduleDesc": "Configura i requisiti del personale nel pannello di sinistra e clicca 'Genera Pianificazione' per calcolare le assegnazioni.",
+    "stats": {
+      "status": "Stato di Fattibilità",
+      "solveTime": "Tempo di Calcolo del Risolutore",
+      "model": "Modello a Vincoli",
+      "feasible": "Fattibile",
+      "unfeasible": "Non fattibile"
+    },
+    "errors": {
+      "impossible": "Requisiti superiori alla capacità! La somma dei medici richiesti al giorno ({{required}}) è maggiore del totale dei medici disponibili ({{doctors}}). Riduci i requisiti.",
+      "maxDays": "La configurazione massima consentita è di 30 giorni.",
+      "serverCommunication": "Impossibile comunicare con il server MiniZinc.",
+      "unfeasibleTitle": "Nessuna Pianificazione Fattibile Trovata",
+      "unfeasibleDesc": "Il risolutore ha dimostrato che nessuna combinazione di turni soddisfa tutte le regole (es. max 3 turni consecutivi, max 2 notti consecutive e i limiti minimi di turni notturni). Prova a ridurre i requisiti.",
+      "serverError": "Impossibile comunicare con il risolutore. Assicurati che il server backend sia in esecuzione."
+    },
+    "gridTitle": "Tabella Turni Generata",
+    "gridSubtitle": "Pianificazione ottimale dei turni che soddisfa tutte le regole di carico di lavoro e riposo.",
+    "medico": "Medico",
+    "solverError": "Errore del Risolutore",
+    "troubleshooting": "Consigli per la Risoluzione",
+    "verifyServer": "Verifica che il server MiniZinc sia in esecuzione su {{url}} e che il demone docker sia attivo.",
+    "models": {
+      "default": "Playground (Predefinito)",
+      "variant": "Playground (Variante Serale)"
+    },
+    "suggestionsTitle": "Suggerimenti:",
+    "suggestions": {
+      "increaseDoctors": "Aumenta il numero totale di medici.",
+      "reduceRequirements": "Riduci i requisiti di turni giornalieri.",
+      "lowerMinNight": "Riduci il requisito minimo di turni notturni per medico."
+    }
   },
   "admin": {
     "dashboard": "Pannello di Amministrazione",

@@ -19,6 +19,7 @@
     "date-fns": "^4.1.0",
     "i18next": "^26.0.6",
     "lucide-react": "^1.8.0",
+    "minizinc": "^4.4.6",
     "radix-ui": "^1.4.3",
     "react": "^19.2.5",
     "react-day-picker": "^9.14.0",
