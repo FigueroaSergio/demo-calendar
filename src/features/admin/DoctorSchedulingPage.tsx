@@ -202,7 +202,7 @@ export function DoctorSchedulingPage() {
         </div>
       </div> */}
 
-      <Card className="shadow-md border-border">
+      <Card>
         <CardHeader className="border-b border-border pb-4">
           <CardTitle className="text-lg font-bold flex items-center gap-2">
             <Users className="w-5 h-5 text-primary" />
@@ -210,7 +210,7 @@ export function DoctorSchedulingPage() {
           </CardTitle>
           <CardDescription>{t("scheduling.staffParamsDesc")}</CardDescription>
         </CardHeader>
-        <CardContent className="pt-6">
+        <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
             <div className="space-y-2">
               <Label htmlFor="numDays" className="text-foreground">
@@ -235,9 +235,6 @@ export function DoctorSchedulingPage() {
                 className="text-sm font-semibold flex justify-between text-foreground"
               >
                 <span>{t("scheduling.reqDayLabel")}</span>
-                <span className="text-primary font-bold">
-                  {reqDay} {t("scheduling.doc")}
-                </span>
               </Label>
               <Input
                 id="reqDay"
@@ -256,9 +253,6 @@ export function DoctorSchedulingPage() {
                 className="text-sm font-semibold flex justify-between text-foreground"
               >
                 <span>{t("scheduling.reqEveningLabel")}</span>
-                <span className="text-primary font-bold">
-                  {reqEvening} {t("scheduling.doc")}
-                </span>
               </Label>
               <Input
                 id="reqEvening"
@@ -277,9 +271,6 @@ export function DoctorSchedulingPage() {
                 className="text-sm font-semibold flex justify-between text-foreground"
               >
                 <span>{t("scheduling.reqNightLabel")}</span>
-                <span className="text-primary font-bold">
-                  {reqNight} {t("scheduling.doc")}
-                </span>
               </Label>
               <Input
                 id="reqNight"
@@ -298,9 +289,6 @@ export function DoctorSchedulingPage() {
                 className="text-sm font-semibold flex justify-between text-foreground"
               >
                 <span>{t("scheduling.minNightLabel")}</span>
-                <span className="text-primary font-bold">
-                  {minNight} {t("scheduling.shiftsLabel")}
-                </span>
               </Label>
               <Input
                 id="minNight"
