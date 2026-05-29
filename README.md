@@ -1,80 +1,45 @@
-# React + TypeScript + Vite
+# Book Appointment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Hospital staff scheduling application with a React frontend and a FastAPI backend that uses MiniZinc to solve nurse rostering constraint problems (day/evening/night shifts).
 
-Currently, two official plugins are available:
+## Docker — Production mode
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Builds the frontend with Nginx and runs the backend server.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+docker compose up -d
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Frontend: http://localhost:8080
+- Backend API: http://localhost:8000
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Rebuild after source changes:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+docker compose up -d --build
 ```
 
-## Backend Service (MiniZinc Solver)
+## Docker — Development mode (hot reload)
 
-The backend service is located in the [server/](file:///c:/Users/sergio/Documents/testing/book-appoinment/server) folder and is built using FastAPI and MiniZinc to solve nurse scheduling constraints.
+Uses Vite dev server for the frontend (HMR) and Uvicorn with `--reload` for the backend. Source code is mounted as a volume so edits reflect instantly.
 
-For instructions on building and starting the server (using Docker or running locally), see the [server README](file:///c:/Users/sergio/Documents/testing/book-appoinment/server/README.md).
+```sh
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+```
+
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8000
+
+## Run locally (without Docker)
+
+### Frontend
+
+```sh
+npm install
+npm run dev
+```
+
+### Backend
+
+See [server/README.md](./server/README.md).
 

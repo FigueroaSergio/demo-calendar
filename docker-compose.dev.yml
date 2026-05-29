@@ -1,0 +1,24 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_DOCKER=true
+    command: sh -c "npm run dev -- --host"
+    depends_on:
+      - server
+
+  server:
+    build: ./server
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./server:/app
+    ports:
+      - "8000:8000"

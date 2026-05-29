@@ -16,5 +16,8 @@ export default defineConfig({
     allowedHosts: [
       "all", // Add your specific tunnel URL here
     ],
+    watch: {
+      usePolling: process.env.VITE_DOCKER === "true",
+    },
   },
 });
