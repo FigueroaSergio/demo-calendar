@@ -43,6 +43,8 @@ import {
 import { providerRepository } from "@/application/services";
 import { Provider } from "@/domain/models/Provider";
 
+const API_URL = import.meta.env.VITE_API_URL ?? "/solve";
+
 interface RosterSolution {
   roster: string[][];
 }
@@ -125,7 +127,7 @@ export function DoctorSchedulingPage() {
     const days = Array.from({ length: numDays }, (_, i) => `D${i + 1}`);
 
     try {
-      const response = await fetch("http://localhost:8000/solve", {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -490,8 +492,8 @@ export function DoctorSchedulingPage() {
                 <p className="text-sm text-destructive/80 mt-1">{error}</p>
                 <div className="mt-4 text-xs text-destructive bg-destructive/10 dark:bg-destructive/5 p-2.5 rounded border border-destructive/20 max-w-lg">
                   <strong>{t("scheduling.troubleshooting")}:</strong>{" "}
-                  {t("scheduling.verifyServer", {
-                    url: "http://localhost:8000",
+                    {t("scheduling.verifyServer", {
+                    url: API_URL,
                   })}
                 </div>
               </div>

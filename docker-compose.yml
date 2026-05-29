@@ -4,6 +4,7 @@ services:
       context: .
       args:
         BASE_URL: /
+        API_URL: ${VITE_API_URL:-/solve}
     ports:
       - "8080:80"
     depends_on:
