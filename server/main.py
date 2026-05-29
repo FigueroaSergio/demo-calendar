@@ -12,6 +12,9 @@ import nest_asyncio
 
 from minizinc import Instance, Model, Solver
 from minizinc.error import MiniZincError
+import logging
+logger = logging.getLogger('uvicorn.error')
+logger.setLevel(logging.DEBUG) 
 
 # Apply nest_asyncio to prevent conflicts with Uvicorn's event loop
 nest_asyncio.apply()
@@ -31,6 +34,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class FixedAssignment(BaseModel):
+    nurse: str = Field(..., description="Nurse name as used in the enum (e.g., 'Nurse1')")
+    day: str = Field(..., description="Day name as used in the enum (e.g., 'D3')")
+    shift: str = Field(..., description="Shift to assign: 'd' (day), 'n' (night), 'o' (off), or 'e' (evening, variant only)")
+
 # Input Pydantic Model
 class SolveRequest(BaseModel):
     nurses: Union[int, List[str]] = Field(
@@ -48,6 +56,10 @@ class SolveRequest(BaseModel):
     )
     req_night: int = Field(..., description="Number of nurses required for night shift per day")
     min_night: int = Field(..., description="Minimum number of night shifts required per nurse")
+    fixed_assignments: Optional[List[FixedAssignment]] = Field(
+        None,
+        description="List of fixed (nurse, day, shift) triples to constrain specific assignments"
+    )
     intermediate_solutions: bool = Field(
         False, 
         description="If True, returns all intermediate solutions. If False, returns the final solution."
@@ -73,7 +85,7 @@ def to_serializable(obj: Any) -> Any:
     return obj
 
 def get_clean_mzn(filename: str) -> str:
-    """Reads a model file and comments out the hardcoded parameter assignments at the bottom."""
+    """Reads a model file and comments out hardcoded assignments and solve satisfy."""
     mzn_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
     if not os.path.exists(mzn_path):
         raise HTTPException(
@@ -84,8 +96,15 @@ def get_clean_mzn(filename: str) -> str:
     with open(mzn_path, "r", encoding="utf-8") as f:
         content = f.read()
     
+    # Strip solve satisfy — will be re-added at the very end
+    content = re.sub(
+        r"^\s*solve\s+satisfy\s*;",
+        r"% solve satisfy; // Re-added after constraints",
+        content,
+        flags=re.MULTILINE
+    )
+    
     # Strip assignments for parameters we override from Python
-    # This matches NURSE, DAY, req_day, req_evening, req_night, min_night
     pattern = r"^\s*(NURSE|DAY|req_day|req_evening|req_night|min_night)\s*=([^;]*);"
     cleaned_content = re.sub(pattern, r"% \1 = \2; // Overridden by API", content, flags=re.MULTILINE)
     
@@ -151,20 +170,35 @@ def solve_nurse_roster(request: SolveRequest):
             detail=f"Failed to construct internal enums from input lists. Verify unique names. Error: {str(e)}"
         )
 
-    # 4. Initialize MiniZinc model and instance
+    # 4. Build complete model string with all declarations, constraints, and solve
+    # NURSE and DAY values must be in the model string (not just via instance) so that
+    # fixed assignment constraints referencing enum members can be analysed
+    model_string = clean_mzn
+    model_string += f"\nNURSE = {{{', '.join(nurses_list)}}};\n"
+    model_string += f"DAY = {{{', '.join(days_list)}}};\n"
+
+    # Add fixed assignment constraints before solve satisfy
+    if request.fixed_assignments:
+        allowed_shifts = {"d", "e", "n", "o"} if use_variant else {"d", "n", "o"}
+        for fa in request.fixed_assignments:
+            if fa.shift not in allowed_shifts:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Invalid shift '{fa.shift}' for nurse '{fa.nurse}' on day '{fa.day}'. "
+                           f"Allowed shifts: {allowed_shifts}"
+                )
+            model_string += f"constraint roster[{fa.nurse}, {fa.day}] = {fa.shift};\n"
+
+    model_string += "solve satisfy;\n"
+
     model = Model()
-    model.add_string(clean_mzn)
-    
+    model.add_string(model_string)
     instance = Instance(gecode, model)
-    
-    # Assign inputs to instance
-    instance["NURSE"] = NURSE_enum
-    instance["DAY"] = DAY_enum
+
+    # Assign only the scalar parameters — NURSE and DAY are already in the model string
     instance["req_day"] = request.req_day
     instance["req_night"] = request.req_night
     instance["min_night"] = request.min_night
-    
-    # If running the variant, assign evening requirement
     if use_variant:
         instance["req_evening"] = request.req_evening
 

@@ -33,6 +33,13 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
 import { providerRepository } from "@/application/services";
 import { Provider } from "@/domain/models/Provider";
 
@@ -63,6 +70,7 @@ export function DoctorSchedulingPage() {
   const [result, setResult] = useState<SolverResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [providers, setProvider] = useState<Provider[]>([]);
+  const [editableSchedule, setEditableSchedule] = useState<string[][]>([]);
   const load = useCallback(async () => {
     setLoading(true);
     try {
@@ -77,6 +85,28 @@ export function DoctorSchedulingPage() {
   useEffect(() => {
     load();
   }, [load]);
+
+  useEffect(() => {
+    if (providers.length > 0 && numDays > 0) {
+      setEditableSchedule(
+        Array.from({ length: providers.length }, () =>
+          Array.from({ length: numDays }, () => ""),
+        ),
+      );
+    }
+  }, [providers.length, numDays]);
+
+  const handleCellChange = (
+    doctorIdx: number,
+    dayIdx: number,
+    value: string,
+  ) => {
+    setEditableSchedule((prev) => {
+      const next = prev.map((row) => [...row]);
+      next[doctorIdx][dayIdx] = value;
+      return next;
+    });
+  };
 
   const totalRequiredPerDay = reqDay + reqEvening + reqNight;
   const isImpossible = totalRequiredPerDay > numDoctors;
@@ -108,6 +138,11 @@ export function DoctorSchedulingPage() {
           req_night: reqNight,
           min_night: minNight,
           intermediate_solutions: false,
+          fixed_assignments: editableSchedule.flatMap((row, i) =>
+            row
+              .map((shift, j) => ({ nurse: doctors[i], day: days[j], shift }))
+              .filter((fa) => fa.shift !== ""),
+          ),
         }),
       });
 
@@ -165,7 +200,7 @@ export function DoctorSchedulingPage() {
   };
 
   return (
-    <div className=" mx-auto py-6 px-4  space-y-8 animate-in fade-in duration-500">
+    <div className="space-y-8 animate-in fade-in duration-500">
       {/* <div className="relative p-6 md:p-8 rounded-2xl overflow-hidden bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50 text-primary-foreground shadow-xl">
         <div className="absolute right-0 top-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -z-10" />
         <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -337,17 +372,92 @@ export function DoctorSchedulingPage() {
       </Card>
 
       <div className="w-full space-y-6">
-        {!loading && !error && !result && (
-          <Card className="flex flex-col items-center justify-center p-12 text-center border-dashed border-border">
-            <div className="bg-muted p-4 rounded-full text-muted-foreground mb-4 animate-pulse">
-              <CalendarRange className="w-10 h-10" />
-            </div>
-            <h3 className="text-lg font-bold text-foreground">
-              {t("scheduling.noSchedule")}
-            </h3>
-            <p className="text-sm text-muted-foreground max-w-sm mt-1">
-              {t("scheduling.noScheduleDesc")}
-            </p>
+        {editableSchedule.length > 0 && providers.length > 0 && (
+          <Card className="shadow-md overflow-hidden">
+            <CardHeader className="border-b border-border px-6">
+              <CardTitle className="text-base font-bold text-foreground">
+                {t("scheduling.title")}
+              </CardTitle>
+              <CardDescription>{t("scheduling.gridSubtitle")}</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="overflow-x-auto max-w-full">
+                <Table className="pt-0">
+                  <TableHeader>
+                    <TableRow className="bg-muted hover:bg-muted border-b border-border">
+                      <TableHead className="font-bold text-foreground sticky left-0 bg-muted px-4 py-3 z-10 w-[140px] border-r border-border">
+                        {t("scheduling.medico")}
+                      </TableHead>
+                      {Array.from({ length: numDays }, (_, idx) => (
+                        <TableHead
+                          key={idx}
+                          className="text-center font-bold px-3 text-xs w-[80px] shrink-0 text-foreground"
+                        >
+                          {t("scheduling.dayLabel")} {idx + 1}
+                        </TableHead>
+                      ))}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {editableSchedule.map((rowShifts, doctorIdx) => (
+                      <TableRow
+                        key={doctorIdx}
+                        className="hover:bg-muted/20 border-b border-border"
+                      >
+                        <TableCell className="font-bold text-sm text-foreground sticky left-0 bg-background px-4 py-3 border-r border-border shadow-[2px_0_5px_rgba(0,0,0,0.02)]">
+                          {providers[doctorIdx]?.name}
+                        </TableCell>
+                        {rowShifts.map((shift, dayIdx) => (
+                          <TableCell
+                            key={dayIdx}
+                            className="text-center px-2.5 py-3 align-middle shrink-0"
+                          >
+                            <Select
+                              value={shift}
+                              onValueChange={(value) =>
+                                handleCellChange(doctorIdx, dayIdx, value)
+                              }
+                            >
+                              <SelectTrigger className="w-full h-8 text-xs">
+                                <SelectValue placeholder="—" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="d">
+                                  <div className="flex items-center gap-1.5">
+                                    <Sun className="w-3 h-3" />
+                                    <span>{t("scheduling.shifts.day")}</span>
+                                  </div>
+                                </SelectItem>
+                                <SelectItem value="e">
+                                  <div className="flex items-center gap-1.5">
+                                    <Sunset className="w-3 h-3" />
+                                    <span>
+                                      {t("scheduling.shifts.evening")}
+                                    </span>
+                                  </div>
+                                </SelectItem>
+                                <SelectItem value="n">
+                                  <div className="flex items-center gap-1.5">
+                                    <Moon className="w-3 h-3" />
+                                    <span>{t("scheduling.shifts.night")}</span>
+                                  </div>
+                                </SelectItem>
+                                <SelectItem value="o">
+                                  <div className="flex items-center gap-1.5">
+                                    <Coffee className="w-3 h-3" />
+                                    <span>{t("scheduling.shifts.off")}</span>
+                                  </div>
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
           </Card>
         )}
 
@@ -479,7 +589,7 @@ export function DoctorSchedulingPage() {
                 </CardHeader>
                 <CardContent className="p-0">
                   <div className="overflow-x-auto max-w-full">
-                    <Table>
+                    <Table className="pt-0">
                       <TableHeader>
                         <TableRow className="bg-muted hover:bg-muted border-b border-border">
                           <TableHead className="font-bold text-foreground sticky left-0 bg-muted px-4 py-3 z-10 w-[140px] border-r border-border">

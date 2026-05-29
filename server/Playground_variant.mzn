@@ -9,16 +9,16 @@ int: min_night;
 
 enum SHIFT = { d, e, n, o };
 
-enum STATE = { S1, S2, S3, S4, S5, S6 };
+enum STATE = { S1, S2, S3, S4, S5 };
 
 array[STATE,SHIFT] of opt STATE: t =
-     [|      d:   e:   n:  o:
-      | S1:  S2,  S2,  S3, S1
-      | S2:  S4,  S4,  S4, S1
-      | S3:  S4,  S4,  S5, S1
-      | S4:  S6,  S6,  S6, S1
-      | S5:  S6,  S6,  <>, S1
-      | S6:  <>,  <>,  <>, S1|];
+      [|      d:   e:   n:   o:
+       | S1:  S2,  S2,  S5,  S1   % Night shift moves to S5
+       | S2:  S4,  S4,  S5,  S1   % Night shift moves to S5
+       | S3:  S4,  S4,  S5,  S1   % Night shift moves to S5
+       | S4:  S4,  S4,  S5,  S1   % State 4 now points to S5 on Night
+       | S5:  <>,  <>,  <>,  S1   % S5: MUST be followed by 'o' (S1)
+       |];
 
 array[NURSE,DAY] of var SHIFT: roster;
 
