@@ -5,12 +5,10 @@ services:
       args:
         BASE_URL: /
         API_URL: ${VITE_API_URL:-/solve}
-    ports:
-      - "8080:80"
     depends_on:
       - server
+    ports:
+      - "80:80"
 
   server:
     build: ./server
-    ports:
-      - "8000:8000"

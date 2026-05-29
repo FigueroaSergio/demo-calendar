@@ -43,7 +43,9 @@ import {
 import { providerRepository } from "@/application/services";
 import { Provider } from "@/domain/models/Provider";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "/solve";
+const API_URL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}`
+  : "/solve";
 
 interface RosterSolution {
   roster: string[][];
@@ -127,7 +129,7 @@ export function DoctorSchedulingPage() {
     const days = Array.from({ length: numDays }, (_, i) => `D${i + 1}`);
 
     try {
-      const response = await fetch(`${API_URL}/solve`, {
+      const response = await fetch(`${API_URL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
