@@ -10,7 +10,7 @@ import { DoctorSchedulingPage } from "./features/admin/DoctorSchedulingPage";
 
 function AppRouter() {
   return (
-    <BrowserRouter basename="/demo-calendar">
+    <BrowserRouter basename="/">
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<ProviderSearch />} />
