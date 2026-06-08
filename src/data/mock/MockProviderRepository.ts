@@ -60,7 +60,7 @@ const MOCK_PROVIDERS: Provider[] = [
   },
 ];
 
-let MOCK_AVAILABILITIES: Record<string, ProviderAvailability[]> = {};
+const MOCK_AVAILABILITIES: Record<string, ProviderAvailability[]> = {};
 const appointmentRepository = new MockAppointmentRepository();
 
 export class MockProviderRepository implements IProviderRepository {

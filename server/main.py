@@ -55,6 +55,14 @@ class SolveRequest(BaseModel):
         description="Number of nurses required for evening shift (if using the day/evening/night/off variant model)"
     )
     req_night: int = Field(..., description="Number of nurses required for night shift per day")
+    min_day: Optional[int] = Field(
+        None,
+        description="Minimum number of day shifts required per nurse (variant model only)"
+    )
+    min_evening: Optional[int] = Field(
+        None,
+        description="Minimum number of evening shifts required per nurse (variant model only)"
+    )
     min_night: int = Field(..., description="Minimum number of night shifts required per nurse")
     fixed_assignments: Optional[List[FixedAssignment]] = Field(
         None,
@@ -105,7 +113,7 @@ def get_clean_mzn(filename: str) -> str:
     )
     
     # Strip assignments for parameters we override from Python
-    pattern = r"^\s*(NURSE|DAY|req_day|req_evening|req_night|min_night)\s*=([^;]*);"
+    pattern = r"^\s*(NURSE|DAY|req_day|req_evening|req_night|min_day|min_evening|min_night)\s*=([^;]*);"
     cleaned_content = re.sub(pattern, r"% \1 = \2; // Overridden by API", content, flags=re.MULTILINE)
     
     return cleaned_content
@@ -201,6 +209,8 @@ def solve_nurse_roster(request: SolveRequest):
     instance["min_night"] = request.min_night
     if use_variant:
         instance["req_evening"] = request.req_evening
+        instance["min_day"] = request.min_day or 0
+        instance["min_evening"] = request.min_evening or 0
 
     # 5. Run the solver
     start_time = time.time()

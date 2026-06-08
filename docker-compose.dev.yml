@@ -11,12 +11,13 @@ services:
     environment:
       - NODE_ENV=development
       - VITE_DOCKER=true
-    command: sh -c "npm run dev -- --host"
+    command: ["npm", "run", "dev", "--", "--host"]
     depends_on:
       - server
 
   server:
     build: ./server
+    entrypoint: []
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - ./server:/app

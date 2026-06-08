@@ -5,6 +5,8 @@ enum DAY;
 int: req_day;
 int: req_evening;
 int: req_night;
+int: min_day;
+int: min_evening;
 int: min_night;
 
 enum SHIFT = { d, e, n, o };
@@ -29,6 +31,8 @@ constraint forall(j in DAY)(
            );
 constraint forall(i in NURSE)(
              regular([roster[i,j] | j in DAY], t, S1, STATE) /\
+             sum(j in DAY)(roster[i,j] == d) >= min_day /\
+             sum(j in DAY)(roster[i,j] == e) >= min_evening /\
              sum(j in DAY)(roster[i,j] == n) >= min_night
            );
 
@@ -40,4 +44,6 @@ DAY = D(1..10);
 req_day = 2;
 req_evening = 2;
 req_night = 2;
+min_day = 1;
+min_evening = 1;
 min_night = 2;

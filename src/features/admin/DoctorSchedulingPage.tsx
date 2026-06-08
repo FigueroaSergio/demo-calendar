@@ -68,6 +68,8 @@ export function DoctorSchedulingPage() {
   const [reqDay, setReqDay] = useState<number>(1);
   const [reqEvening, setReqEvening] = useState<number>(1);
   const [reqNight, setReqNight] = useState<number>(1);
+  const [minDay, setMinDay] = useState<number>(0);
+  const [minEvening, setMinEvening] = useState<number>(0);
   const [minNight, setMinNight] = useState<number>(1);
 
   const [error, setError] = useState<string | null>(null);
@@ -140,6 +142,8 @@ export function DoctorSchedulingPage() {
           req_day: reqDay,
           req_evening: reqEvening,
           req_night: reqNight,
+          min_day: minDay,
+          min_evening: minEvening,
           min_night: minNight,
           intermediate_solutions: false,
           fixed_assignments: editableSchedule.flatMap((row, i) =>
@@ -250,7 +254,7 @@ export function DoctorSchedulingPage() {
           <CardDescription>{t("scheduling.staffParamsDesc")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+          <div className="grid grid-cols-1 md:grid-cols-7 gap-4 items-end">
             <div className="space-y-2">
               <Label htmlFor="numDays" className="text-foreground">
                 {t("scheduling.daysLabel")}
@@ -318,6 +322,42 @@ export function DoctorSchedulingPage() {
                 value={reqNight}
                 onChange={(e) =>
                   setReqNight(Math.max(0, parseInt(e.target.value) || 0))
+                }
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="minDay"
+                className="text-sm font-semibold flex justify-between text-foreground"
+              >
+                <span>{t("scheduling.minDayLabel")}</span>
+              </Label>
+              <Input
+                id="minDay"
+                type="number"
+                min={0}
+                value={minDay}
+                onChange={(e) =>
+                  setMinDay(Math.max(0, parseInt(e.target.value) || 0))
+                }
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="minEvening"
+                className="text-sm font-semibold flex justify-between text-foreground"
+              >
+                <span>{t("scheduling.minEveningLabel")}</span>
+              </Label>
+              <Input
+                id="minEvening"
+                type="number"
+                min={0}
+                value={minEvening}
+                onChange={(e) =>
+                  setMinEvening(Math.max(0, parseInt(e.target.value) || 0))
                 }
               />
             </div>

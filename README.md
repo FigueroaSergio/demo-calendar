@@ -24,7 +24,20 @@ docker compose up -d --build
 Uses Vite dev server for the frontend (HMR) and Uvicorn with `--reload` for the backend. Source code is mounted as a volume so edits reflect instantly.
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.dev.yml up -d
+```
+
+Build (or rebuild) first to avoid stale cached images (especially the frontend, which has a
+separate `Dockerfile.dev` from the production `Dockerfile`):
+
+```sh
+docker compose -f docker-compose.dev.yml build frontend
+```
+
+Force a full rebuild from scratch (clears all build cache):
+
+```sh
+docker compose -f docker-compose.dev.yml build --no-cache
 ```
 
 - Frontend: http://localhost:5173

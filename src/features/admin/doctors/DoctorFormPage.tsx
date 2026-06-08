@@ -183,6 +183,7 @@ export function DoctorFormPage() {
   const [loadingDoctor, setLoadingDoctor] = useState(isEdit);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [savingBasic, setSavingBasic] = useState(false);
 
   // Profile state
   const [profile, setProfile] = useState<FormProfile>(defaultProfile);
@@ -320,7 +321,6 @@ export function DoctorFormPage() {
       return;
     }
 
-    setSaving(true);
     try {
       const dto: CreateProviderDTO = {
         name: profile.name.trim(),
@@ -584,7 +584,20 @@ export function DoctorFormPage() {
             </CardContent>
           </Card>
 
-          <div className="flex justify-end">
+          <div className="flex justify-between">
+            <Button
+              onClick={handleSave}
+              variant="outline"
+              disabled={saving}
+              className="gap-2"
+            >
+              <Save className="w-4 h-4" />
+              {saving
+                ? t("common.loading")
+                : isEdit
+                  ? t("common.save")
+                  : t("admin.dashboard.addProvider")}
+            </Button>
             <Button onClick={() => setStep("slots")} className="gap-2">
               {t("admin.doctorForm.buttons.nextSlots")}
             </Button>
@@ -981,20 +994,6 @@ export function DoctorFormPage() {
             </CardContent>
           </Card>
 
-          {/* Error / success banners */}
-          {error && (
-            <div className="flex items-center gap-2 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-              <AlertCircle className="w-4 h-4 shrink-0" />
-              {error}
-            </div>
-          )}
-          {success && (
-            <div className="flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-3">
-              <CheckCircle2 className="w-4 h-4 shrink-0" />
-              {t("admin.doctorForm.messages.successSave")}
-            </div>
-          )}
-
           <div className="flex justify-between">
             <Button variant="outline" onClick={() => setStep("slots")}>
               {t("admin.doctorForm.buttons.back")}
@@ -1008,6 +1007,20 @@ export function DoctorFormPage() {
                   : t("admin.dashboard.addProvider")}
             </Button>
           </div>
+        </div>
+      )}
+
+      {/* Error / success banners */}
+      {error && (
+        <div className="flex items-center gap-2 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-3">
+          <CheckCircle2 className="w-4 h-4 shrink-0" />
+          {t("admin.doctorForm.messages.successSave")}
         </div>
       )}
     </div>
