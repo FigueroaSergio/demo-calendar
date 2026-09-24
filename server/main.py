@@ -8,16 +8,12 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from dataclasses import asdict, is_dataclass
-import nest_asyncio
 
 from minizinc import Instance, Model, Solver
 from minizinc.error import MiniZincError
 import logging
 logger = logging.getLogger('uvicorn.error')
 logger.setLevel(logging.DEBUG) 
-
-# Apply nest_asyncio to prevent conflicts with Uvicorn's event loop
-nest_asyncio.apply()
 
 app = FastAPI(
     title="MiniZinc Nurse Rostering API",

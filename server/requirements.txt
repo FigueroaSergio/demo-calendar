@@ -3,3 +3,5 @@ uvicorn>=0.22.0
 minizinc>=0.4.2
 pydantic>=2.0.0
 nest-asyncio>=1.5.6
+# Python 3.14 compatibility: older anyio versions can crash inside FastAPI/Uvicorn
+anyio>=4.7.0
