@@ -92,6 +92,32 @@ def to_serializable(obj: Any) -> Any:
         return {key: to_serializable(val) for key, val in obj.items()}
     return obj
 
+def _validate_identifier(name: str, field: str) -> None:
+    """Validate that name is a safe MiniZinc identifier (alphanumeric, no spaces/special chars)."""
+    if not re.fullmatch(r"[a-zA-Z_][a-zA-Z0-9_]*", name):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid {field} '{name}'. Must be a valid identifier (letters, digits, underscores only, starting with a letter or underscore)."
+        )
+
+def _validate_identifiers(names: List[str], field: str) -> List[str]:
+    """Validate and return a list of safe MiniZinc identifiers."""
+    seen = set()
+    for name in names:
+        if not isinstance(name, str) or not name.strip():
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid {field} entry '{name}'. Each name must be a non-empty string."
+            )
+        _validate_identifier(name, field)
+        if name in seen:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Duplicate {field} entry '{name}'. All names must be unique."
+            )
+        seen.add(name)
+    return names
+
 def get_clean_mzn(filename: str) -> str:
     """Reads a model file and comments out hardcoded assignments and solve satisfy."""
     mzn_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
@@ -132,11 +158,11 @@ def read_root():
 def solve_nurse_roster(request: SolveRequest):
     # 1. Look up the solver (using gecode as default)
     try:
-        gecode = Solver.lookup("gecode")
+        solver = Solver.lookup("cp-sat")
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Could not locate Gecode solver. Ensure MiniZinc is installed and in the system PATH. Details: {str(e)}"
+            detail=f"Could not locate the solver. Ensure MiniZinc is installed and in the system PATH. Details: {str(e)}"
         )
 
     # 2. Determine which model file to use
@@ -159,14 +185,14 @@ def solve_nurse_roster(request: SolveRequest):
             raise HTTPException(status_code=400, detail="nurses count must be positive")
         nurses_list = [f"Nurse{i}" for i in range(1, request.nurses + 1)]
     else:
-        nurses_list = request.nurses
+        nurses_list = _validate_identifiers(request.nurses, "nurses")
 
     if isinstance(request.days, int):
         if request.days <= 0:
             raise HTTPException(status_code=400, detail="days count must be positive")
         days_list = [f"D{i}" for i in range(1, request.days + 1)]
     else:
-        days_list = request.days
+        days_list = _validate_identifiers(request.days, "days")
 
     # Create dynamic python enums that map to MiniZinc enum types
     try:
@@ -195,13 +221,15 @@ def solve_nurse_roster(request: SolveRequest):
                     detail=f"Invalid shift '{fa.shift}' for nurse '{fa.nurse}' on day '{fa.day}'. "
                            f"Allowed shifts: {allowed_shifts}"
                 )
+            _validate_identifier(fa.nurse, "fixed_assignment.nurse")
+            _validate_identifier(fa.day, "fixed_assignment.day")
             model_string += f"constraint roster[{fa.nurse}, {fa.day}] = {fa.shift};\n"
 
     model_string += "solve satisfy;\n"
 
     model = Model()
     model.add_string(model_string)
-    instance = Instance(gecode, model)
+    instance = Instance(solver, model)
 
     # Assign only the scalar parameters — NURSE and DAY are already in the model string
     instance["req_day"] = request.req_day
@@ -261,4 +289,5 @@ def solve_nurse_roster(request: SolveRequest):
 
 if __name__ == "__main__":
     import uvicorn
+  
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
